@@ -125,7 +125,7 @@ export default function Sidebar({ routes, logo, dropdown, input }) {
     });
   };
   let logoImage = (
-    <img alt={logo.imgAlt} className={classes.logoClasses} src={logo.imgSrc} />
+    <img alt={logo.imgAlt} className={classes.logoClasses} src={logo.imgSrc} /> //sidebar logo / layout부분에서 호출
   );
   let logoObject =
     logo && logo.innerLink ? (

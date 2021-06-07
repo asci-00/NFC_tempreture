@@ -23,10 +23,9 @@ import componentStyles from "assets/theme/layouts/admin.js";
 
 const useStyles = makeStyles(componentStyles);
 
-const Admin = () => {
+const Admin = (props) => {
   const classes = useStyles();
   const location = useLocation();
-
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;

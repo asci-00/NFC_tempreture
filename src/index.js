@@ -20,9 +20,10 @@ ReactDOM.render(
     <CssBaseline />
     <BrowserRouter>
       <Switch>
-        <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
         <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-        <Redirect from="/" to="/admin/index" />
+        <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+        <Redirect from="/" to="/admin" />
+        <Route path="*" render={(props) => <AuthLayout {...props} />} />
       </Switch>
     </BrowserRouter>
   </ThemeProvider>,
