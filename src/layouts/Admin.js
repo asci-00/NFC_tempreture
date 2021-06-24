@@ -1,5 +1,7 @@
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useSelector } from 'react-redux'
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -24,17 +26,19 @@ import componentStyles from "assets/theme/layouts/admin.js";
 const useStyles = makeStyles(componentStyles);
 
 const Admin = (props) => {
-  const classes = useStyles();
-  const location = useLocation();
+  const classes = useStyles()
+  const location = useLocation()
+  const accountType = useSelector(state => state.auth.accountType)
+
   React.useEffect(() => {
+    if(accountType === 'guest') props.history.push('/auth')
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     // mainContent.current.scrollTop = 0;
   }, [location]);
-
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === `/${accountType}`) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -61,9 +65,9 @@ const Admin = (props) => {
     <>
       <>
         <Sidebar
-          routes={routes}
+          routes={routes.filter(route => route.layout === `/${accountType}`)}
           logo={{
-            innerLink: "/admin/index",
+            innerLink: `/${accountType}/index`,
             imgSrc: require("../assets/img/brand/argon-react.png").default,
             imgAlt: "...",
           }}
@@ -94,7 +98,7 @@ const Admin = (props) => {
           <AdminNavbar brandText={getBrandText(location.pathname)} />
           <Switch>
             {getRoutes(routes)}
-            <Redirect from="*" to="/admin/index" />
+            <Redirect from="*" to={`/${accountType}/index`} />
           </Switch>
           <Container
             maxWidth={false}

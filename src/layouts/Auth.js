@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from 'react-redux'
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,12 +18,14 @@ import componentStyles from "assets/theme/layouts/auth.js";
 
 const useStyles = makeStyles(componentStyles);
 
-const Auth = () => {
+const Auth = (props) => {
   const classes = useStyles();
   const mainContent = React.useRef(null);
   const location = useLocation();
+  const accountType = useSelector(state => state.auth.accountType)
 
   React.useEffect(() => {
+    if(accountType !== 'guest') props.history.push(`/${accountType}`) 
     document.body.classList.add(classes.bgDefault);
     return () => {
       document.body.classList.remove(classes.bgDefault);

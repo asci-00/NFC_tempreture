@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
@@ -20,11 +21,18 @@ import Lock from "@material-ui/icons/Lock";
 // core components
 import componentStyles from "assets/theme/views/auth/login.js";
 
+import { setAuthAsync } from 'reducer/auth'
+
 const useStyles = makeStyles(componentStyles);
 
 function Login() {
+  const [info, setInfo] = useState({id : '', pw : ''})
+  const dispatch = useDispatch()
   const classes = useStyles();
   const theme = useTheme();
+
+  const onSubmit = (accInfo) => dispatch(setAuthAsync(accInfo))
+  
   return (
     <>
       <Grid item xs={12} lg={5} md={7}>
@@ -120,6 +128,8 @@ function Login() {
                     <Email />
                   </InputAdornment>
                 }
+                onChange = {ev => setInfo({...info, id:ev.target.value})}
+                value = {info.id}
               />
             </FormControl>
             <FormControl
@@ -137,6 +147,8 @@ function Login() {
                     <Lock />
                   </InputAdornment>
                 }
+                onChange = {ev => setInfo({...info, pw:ev.target.value})}
+                value = {info.pw}
               />
             </FormControl>
             <FormControlLabel
@@ -150,7 +162,7 @@ function Login() {
               }}
             />
             <Box textAlign="center" marginTop="1.5rem" marginBottom="1.5rem">
-              <Button color="primary" variant="contained">
+              <Button color="primary" variant="contained" onClick={()=>onSubmit({...info})}>
                 Sign in
               </Button>
             </Box>
