@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
@@ -25,14 +25,29 @@ import { setAuthAsync } from 'reducer/auth'
 
 const useStyles = makeStyles(componentStyles);
 
-function Login() {
+function Login(props) {
   const [info, setInfo] = useState({id : '', pw : ''})
+  const accountType = useSelector(state => state.auth.accountType)
   const dispatch = useDispatch()
   const classes = useStyles();
   const theme = useTheme();
 
-  const onSubmit = (accInfo) => dispatch(setAuthAsync(accInfo))
-  
+  const onDebug = (data) => ({accountType : data.id})
+
+  const onSubmit = (accInfo) => {
+    dispatch(setAuthAsync(onDebug(accInfo)))
+  }
+
+  const checkLogin = () => {
+    
+    if(accountType !== 'guest') 
+      props.history.push(`/${accountType}`) 
+  }
+  console.log(accountType)
+  useEffect(() => {
+    checkLogin()
+  }, [accountType])
+
   return (
     <>
       <Grid item xs={12} lg={5} md={7}>

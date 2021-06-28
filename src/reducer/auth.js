@@ -1,4 +1,4 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, delay } from 'redux-saga/effects';
 
 // 액션 타입
 const SETAUTH = 'SETAUTH';
@@ -9,9 +9,9 @@ export const setAuth = (payload) => ({ type: SETAUTH, payload });
 export const setAuthAsync = (payload) => ({ type: SETAUTH_ASYNC, payload });
 
 function* setAuthSaga(action) {   //API 호출
-  return new Promise((res, rej) => {
-    put(setAuth({...action.payload}))
-  }, 500)
+  yield delay(1000)
+  console.log(setAuth({...action.payload}))
+  yield put(setAuth({...action.payload}))
 }
 
 export function* authSaga() {
