@@ -10,7 +10,6 @@ export const setAuthAsync = (payload) => ({ type: SETAUTH_ASYNC, payload });
 
 function* setAuthSaga(action) {   //API 호출
   yield delay(1000)
-  console.log(setAuth({...action.payload}))
   yield put(setAuth({...action.payload}))
 }
 
@@ -31,6 +30,7 @@ const initialState = {
 export default function auth(state = initialState, action) {
   switch (action.type) {
     case SETAUTH:
+      console.log({...state, ...action.payload})
       return {...state, ...action.payload};
     default:
       return state;

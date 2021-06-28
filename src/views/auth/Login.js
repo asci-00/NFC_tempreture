@@ -21,12 +21,20 @@ import Lock from "@material-ui/icons/Lock";
 // core components
 import componentStyles from "assets/theme/views/auth/login.js";
 
+// action type
 import { setAuthAsync } from 'reducer/auth'
+
+// User Components
+import Warning from 'components/Dialog/Warning'
+
+// User functionable file
+import { isAvailable } from 'func/data'
 
 const useStyles = makeStyles(componentStyles);
 
 function Login(props) {
   const [info, setInfo] = useState({id : '', pw : ''})
+  const [open, setOpen] = useState(false)
   const accountType = useSelector(state => state.auth.accountType)
   const dispatch = useDispatch()
   const classes = useStyles();
@@ -35,21 +43,20 @@ function Login(props) {
   const onDebug = (data) => ({accountType : data.id})
 
   const onSubmit = (accInfo) => {
-    dispatch(setAuthAsync(onDebug(accInfo)))
+    if(!isAvailable(accInfo.id) || !isAvailable(accInfo.pw)) setOpen(true)
+    else dispatch(setAuthAsync(onDebug(accInfo)))
   }
 
-  const checkLogin = () => {
-    
+  useEffect(() => {
     if(accountType !== 'guest') 
       props.history.push(`/${accountType}`) 
-  }
-  console.log(accountType)
-  useEffect(() => {
-    checkLogin()
   }, [accountType])
 
   return (
     <>
+      <Warning open = {open} onClose={() => setOpen(false)}>
+        아이디와 패스워드를 입력하십시오.
+      </Warning>
       <Grid item xs={12} lg={5} md={7}>
         <Card classes={{ root: classes.cardRoot }}>
           <CardHeader

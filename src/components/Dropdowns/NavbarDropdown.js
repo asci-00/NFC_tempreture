@@ -1,41 +1,38 @@
-import React from "react";
+import React from "react"
+import { useDispatch } from 'react-redux'
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import Hidden from "@material-ui/core/Hidden";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles"
+import Avatar from "@material-ui/core/Avatar"
+import Box from "@material-ui/core/Box"
+import Button from "@material-ui/core/Button"
+import Divider from "@material-ui/core/Divider"
+import Hidden from "@material-ui/core/Hidden"
+import Menu from "@material-ui/core/Menu"
+import MenuItem from "@material-ui/core/MenuItem"
+import Typography from "@material-ui/core/Typography"
 // @material-ui/icons components
-import DirectionsRun from "@material-ui/icons/DirectionsRun";
-import EventNote from "@material-ui/icons/EventNote";
-import LiveHelp from "@material-ui/icons/LiveHelp";
-import Person from "@material-ui/icons/Person";
-import Settings from "@material-ui/icons/Settings";
+import DirectionsRun from "@material-ui/icons/DirectionsRun"
+import LiveHelp from "@material-ui/icons/LiveHelp"
+import Person from "@material-ui/icons/Person"
 
 // core components
-import componentStyles from "assets/theme/components/navbar-dropdown.js";
+import componentStyles from "assets/theme/components/navbar-dropdown.js"
 
-const useStyles = makeStyles(componentStyles);
+// action type
+import { setAuth } from 'reducer/auth'
 
-export default function NavbarDropdown() {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const useStyles = makeStyles(componentStyles)
 
-  const isMenuOpen = Boolean(anchorEl);
+export default function NavbarDropdown(props) {
+  const classes = useStyles()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const dispatch = useDispatch()
+  const isMenuOpen = Boolean(anchorEl)
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget)
+  const handleMenuClose = () => setAnchorEl(null)
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const menuId = "primary-search-account-menu";
+  const menuId = "primary-search-account-menu"
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -74,34 +71,6 @@ export default function NavbarDropdown() {
         onClick={handleMenuClose}
       >
         <Box
-          component={Settings}
-          width="1.25rem!important"
-          height="1.25rem!important"
-          marginRight="1rem"
-        />
-        <span>Settings</span>
-      </Box>
-      <Box
-        display="flex!important"
-        alignItems="center!important"
-        component={MenuItem}
-        onClick={handleMenuClose}
-      >
-        <Box
-          component={EventNote}
-          width="1.25rem!important"
-          height="1.25rem!important"
-          marginRight="1rem"
-        />
-        <span>Activity</span>
-      </Box>
-      <Box
-        display="flex!important"
-        alignItems="center!important"
-        component={MenuItem}
-        onClick={handleMenuClose}
-      >
-        <Box
           component={LiveHelp}
           width="1.25rem!important"
           height="1.25rem!important"
@@ -114,7 +83,9 @@ export default function NavbarDropdown() {
         display="flex!important"
         alignItems="center!important"
         component={MenuItem}
-        onClick={handleMenuClose}
+        onClick={() => {
+          dispatch(setAuth({accountType : 'guest'}))
+        }}
       >
         <Box
           component={DirectionsRun}
@@ -125,7 +96,7 @@ export default function NavbarDropdown() {
         <span>Logout</span>
       </Box>
     </Menu>
-  );
+  )
 
   return (
     <>
@@ -152,5 +123,5 @@ export default function NavbarDropdown() {
       </Button>
       {renderMenu}
     </>
-  );
+  )
 }
