@@ -1,31 +1,37 @@
-import React from "react";
+import React from "react"
+import { useDispatch } from 'react-redux'
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import Checkbox from "@material-ui/core/Checkbox";
-import FilledInput from "@material-ui/core/FilledInput";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Grid from "@material-ui/core/Grid";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import { makeStyles } from "@material-ui/core/styles"
+import { useTheme } from "@material-ui/core/styles"
+import Box from "@material-ui/core/Box"
+import Button from "@material-ui/core/Button"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import CardHeader from "@material-ui/core/CardHeader"
+import Checkbox from "@material-ui/core/Checkbox"
+import FilledInput from "@material-ui/core/FilledInput"
+import FormControl from "@material-ui/core/FormControl"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Grid from "@material-ui/core/Grid"
+import InputAdornment from "@material-ui/core/InputAdornment"
 // @material-ui/icons components
-import Email from "@material-ui/icons/Email";
-import Lock from "@material-ui/icons/Lock";
-import School from "@material-ui/icons/School";
+import Email from "@material-ui/icons/Email"
+import Lock from "@material-ui/icons/Lock"
+import School from "@material-ui/icons/School"
 
 // core components
-import componentStyles from "assets/theme/views/auth/register.js";
+import componentStyles from "assets/theme/views/auth/register.js"
 
-const useStyles = makeStyles(componentStyles);
+// User functionable file
+import { signInWithGoogle, signInWithApple } from 'firebase.config'
+
+const useStyles = makeStyles(componentStyles)
 
 function Register() {
-  const classes = useStyles();
-  const theme = useTheme();
+  const classes = useStyles()
+  const theme = useTheme()
+  const dispatch = useDispatch()
+
   return (
     <>
       <Grid item xs={12} lg={6} md={8}>
@@ -56,6 +62,7 @@ function Register() {
                   variant="contained"
                   marginRight="2rem!important"
                   classes={{ root: classes.buttonRoot }}
+                  onClick={() => signInWithApple().then(res => console.log(res))}
                 >
                   <Box component="span" marginRight="4px">
                     <Box
@@ -64,17 +71,18 @@ function Register() {
                       width="20px"
                       className={classes.buttonImg}
                       src={
-                        require("assets/img/icons/common/github.svg").default
+                        require("assets/img/icons/common/apple.svg").default
                       }
                     ></Box>
                   </Box>
                   <Box component="span" marginLeft=".75rem">
-                    Github
+                    Apple
                   </Box>
                 </Box>
                 <Button
                   variant="contained"
                   classes={{ root: classes.buttonRoot }}
+                  onClick={() => signInWithGoogle().then(res => console.log(res))}
                 >
                   <Box component="span" marginRight="4px">
                     <Box
@@ -204,7 +212,7 @@ function Register() {
         </Card>
       </Grid>
     </>
-  );
+  )
 }
 
-export default Register;
+export default Register

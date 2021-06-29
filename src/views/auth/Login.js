@@ -29,6 +29,7 @@ import Warning from 'components/Dialog/Warning'
 
 // User functionable file
 import { isAvailable } from 'func/data'
+import { signInWithGoogle, signInWithApple, getIDToken } from 'firebase.config'
 
 const useStyles = makeStyles(componentStyles);
 
@@ -85,6 +86,7 @@ function Login(props) {
                   variant="contained"
                   marginRight=".5rem!important"
                   classes={{ root: classes.buttonRoot }}
+                  onClick={() => signInWithApple().then(res => console.log(res))}
                 >
                   <Box component="span" marginRight="4px">
                     <Box
@@ -93,17 +95,23 @@ function Login(props) {
                       width="20px"
                       className={classes.buttonImg}
                       src={
-                        require("assets/img/icons/common/github.svg").default
+                        require("assets/img/icons/common/apple.svg").default
                       }
                     ></Box>
                   </Box>
                   <Box component="span" marginLeft=".75rem">
-                    Github
+                    Apple
                   </Box>
                 </Box>
                 <Button
                   variant="contained"
                   classes={{ root: classes.buttonRoot }}
+                  onClick={() => {
+                    signInWithGoogle().then(res => {
+                      console.log(res)
+                      getIDToken().then(res => console.log(res))
+                    })
+                  }}
                 >
                   <Box component="span" marginRight="4px">
                     <Box
