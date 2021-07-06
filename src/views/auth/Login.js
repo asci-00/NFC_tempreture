@@ -29,7 +29,7 @@ import Warning from 'components/Dialog/Warning'
 
 // User functionable file
 import { isAvailable } from 'func/data'
-import { signInWithGoogle, signInWithApple, getIDToken } from 'firebase.config'
+import { signInWithGoogle, signInWithApple, getIDToken, onSignIn } from 'firebase.config'
 
 const useStyles = makeStyles(componentStyles);
 
@@ -44,9 +44,10 @@ function Login(props) {
   const onDebug = (data) => ({accountType : data.id})
 
   const onSubmit = (accInfo) => {
-    if(!isAvailable(accInfo.id) || !isAvailable(accInfo.pw)) setOpen(true)
-    else dispatch(setAuthAsync(onDebug(accInfo)))
-  }
+          if(!isAvailable(accInfo.id) || !isAvailable(accInfo.pw)) setOpen(true)
+          else dispatch(setAuthAsync(onDebug(accInfo)))
+        }
+
 
   useEffect(() => {
     if(accountType !== 'guest') 
@@ -109,7 +110,8 @@ function Login(props) {
                   onClick={() => {
                     signInWithGoogle().then(res => {
                       console.log(res)
-                      getIDToken().then(res => console.log(res))
+                      onSignIn(res)
+                      //getIDToken().then(res => console.log(res))
                     })
                   }}
                 >

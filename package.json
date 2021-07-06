@@ -1,17 +1,9 @@
 {
-  "name": "argon-dashboard-material-ui",
+  "name": "nfc-dashboard-web",
   "version": "1.0.0",
   "author": "Creative Tim",
   "license": "MIT",
   "description": "Material UI version of Argon Dashboard React by Creative Tim",
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-material-ui/#/admin/dashboard",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-dashboard-material-ui/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-dashboard-material-ui.git"
-  },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js && gulp licenses",
@@ -53,6 +45,7 @@
     "eslint-plugin-testing-library": "^3.9.2",
     "eslint-webpack-plugin": "^2.1.0",
     "file-loader": "6.1.1",
+    "firebase": "^8.6.8",
     "fs-extra": "^9.0.1",
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
@@ -108,16 +101,7 @@
     ],
     "rules": {
       "no-unused-vars": "off",
-      "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
-        "warn",
-        {
-          "vars": "all",
-          "varsIgnorePattern": "^_",
-          "args": "after-used",
-          "argsIgnorePattern": "^_"
-        }
-      ]
+      "unused-imports/no-unused-imports": "off"
     }
   },
   "optionalDependencies": {

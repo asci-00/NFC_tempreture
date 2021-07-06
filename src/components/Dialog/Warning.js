@@ -1,12 +1,11 @@
 import React from 'react'
 import DialogContent from '@material-ui/core/DialogContent'
 import Dialog from '@material-ui/core/Dialog'
-// import Avatar from '@material-ui/core/Avatar'
 import WarningIcon from 'assets/img/icons/common/warning.png';
 
 export default function Warning(props) {
     const { onClose, open, children } = props
-    const handleClose = () => onClose() 
+    const handleClose = () => onClose()
     const textStyle = {
         color:'black',
         paddingLeft:'30px'

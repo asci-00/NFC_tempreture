@@ -27,6 +27,10 @@ import { signInWithGoogle, signInWithApple } from 'firebase.config'
 
 const useStyles = makeStyles(componentStyles)
 
+const RegistAccount = info => {
+  
+}
+
 function Register() {
   const classes = useStyles()
   const theme = useTheme()
