@@ -22,7 +22,7 @@ import Lock from "@material-ui/icons/Lock";
 import componentStyles from "assets/theme/views/auth/login.js";
 
 // action type
-import { setAuthAsync } from 'reducer/auth'
+import { requestAuth } from 'reducer/auth'
 
 // User Components
 import Warning from 'components/Dialog/Warning'
@@ -36,7 +36,7 @@ const useStyles = makeStyles(componentStyles);
 function Login(props) {
   const [info, setInfo] = useState({id : '', pw : ''})
   const [open, setOpen] = useState(false)
-  const accountType = useSelector(state => state.auth.accountType)
+  const {isLogin, accountType} = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const classes = useStyles();
   const theme = useTheme();
@@ -44,15 +44,16 @@ function Login(props) {
   const onDebug = (data) => ({accountType : data.id})
 
   const onSubmit = (accInfo) => {
-          if(!isAvailable(accInfo.id) || !isAvailable(accInfo.pw)) setOpen(true)
-          else dispatch(setAuthAsync(onDebug(accInfo)))
-        }
-
+    if(!isAvailable(accInfo.id) || !isAvailable(accInfo.pw)) setOpen(true)
+    else dispatch(requestAuth(onDebug(accInfo)))
+  }
 
   useEffect(() => {
-    if(accountType !== 'guest') 
-      props.history.push(`/${accountType}`) 
-  }, [accountType])
+    if(sessionStorage.getItem('token')) { 
+      //token 유효성 검사 api 호출
+    }
+    if(isLogin) props.history.push(`/${accountType}`)
+  }, [isLogin])
 
   return (
     <>

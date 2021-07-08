@@ -1,37 +1,44 @@
 import { put, takeEvery, delay } from 'redux-saga/effects';
 
 // 액션 타입
-const SETAUTH = 'SETAUTH';
-const SETAUTH_ASYNC = 'SETAUTH_ASYNC';
+const SET_AUTH = '@@AUTH/SETAUTH';
+const REQUEST_ASYNC_AUTH = '@@AUTH/REQUEST_ASYNC';
 
 // 액션 생성 함수
-export const setAuth = (payload) => ({ type: SETAUTH, payload });
-export const setAuthAsync = (payload) => ({ type: SETAUTH_ASYNC, payload });
+export const setAuth = (payload) => ({ type: SET_AUTH, payload });
+export const requestAuth = (payload) => ({ type: REQUEST_ASYNC_AUTH, payload });
+const requestAuthSuccess = (data) => ({})
+const requestAuthFail = (data) => ({})
 
-function* setAuthSaga(action) {   //API 호출
+
+
+function* requestAuthSaga(action) {   //API 호출
   yield delay(1000)
   yield put(setAuth({...action.payload}))
+  //if api call fail
+
 }
 
 export function* authSaga() {
-  yield takeEvery(SETAUTH_ASYNC, setAuthSaga); // 모든 INCREASE_ASYNC 액션을 처리
+  yield takeEvery(REQUEST_ASYNC_AUTH, requestAuthSaga); // 모든 INCREASE_ASYNC 액션을 처리
   //yield takeLatest(DECREASE_ASYNC, decreaseSaga); // 가장 마지막으로 디스패치된 DECREASE_ASYNC 액션만을 처리
 }
 
-// 초깃값 (상태가 객체가 아니라 그냥 숫자여도 상관 없습니다.)
 const initialState = {
-    level : -1,
-    name : 'GUEST',
-    accountType : 'guest',
-    code : '',
-    tocken : ''
+  isLogin : false,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
+  level : -1,
+  name : 'GUEST',
+  accountType : 'guest',
+  code : '',
+  tocken : ''
 };
+
+const debugToken = 'goieEkf12KFpw=sd#@ksEFG'
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
-    case SETAUTH:
-      console.log({...state, ...action.payload})
-      return {...state, ...action.payload};
+    case SET_AUTH:
+      return {...state, ...action.payload, token : debugToken, isLogin:true};
     default:
       return state;
   }
