@@ -15,20 +15,36 @@ import routes from "routes.js";
 
 import componentStyles from "assets/theme/layouts/auth.js";
 
+import { useDispatch, useSelector } from 'react-redux'
+import { requestAuth } from 'actions/auth'
+
+import { getUserPath } from 'assets/js/common.js'
 const useStyles = makeStyles(componentStyles);
 
 const Auth = (props) => {
   const classes = useStyles();
   const mainContent = React.useRef(null);
+  const { isLogin, level } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
   const location = useLocation();
 
   React.useEffect(() => {
+    //body css class 수정
     document.body.classList.add(classes.bgDefault);
-    return () => {
-      document.body.classList.remove(classes.bgDefault);
-    };
-  });
+    //로그인 유효성 검증
+    const token = sessionStorage.getItem('token')
+    if(token) {
+      if(isLogin) props.history.push(getUserPath(level))
+      else {
+        sessionStorage.remove('token')
+        dispatch(requestAuth({token})) //create action getUserInfo
+      }
+    }
+    return () => document.body.classList.remove(classes.bgDefault)
+  }, [isLogin])
+
   React.useEffect(() => {
+    //scroll 초기화
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     mainContent.current.scrollTop = 0;

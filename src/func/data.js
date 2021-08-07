@@ -3,6 +3,6 @@ export const isAvailable = (target) => {
         target === undefined ||
         target === null ||
         (typeof target === 'Object' && Object.keys(target).length === 0)||
-        target === ''
+        (typeof target === 'string' && target === '')
     )
 }

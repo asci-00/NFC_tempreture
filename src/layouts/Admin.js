@@ -23,18 +23,21 @@ import routes from "routes.js";
 
 import componentStyles from "assets/theme/layouts/admin.js";
 
+import { getUserPath } from 'assets/js/common.js'
+
 const useStyles = makeStyles(componentStyles);
 
 const Admin = (props) => {
   const classes = useStyles()
   const location = useLocation()
-  const accountType = useSelector(state => state.auth.accountType)
+  const { isLogin, level } = useSelector(state => state.auth)
 
   React.useEffect(() => {
-    if(accountType === 'guest') props.history.push('/auth')
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    // mainContent.current.scrollTop = 0;
+    if(isLogin) {
+      if(getUserPath(level) !== location) props.history.push(getUserPath(level))
+      document.documentElement.scrollTop = 0
+      document.scrollingElement.scrollTop = 0
+    } else props.history.push('/auth')
   }, [location]);
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
@@ -63,7 +66,6 @@ const Admin = (props) => {
 
   return (
     <>
-      <>
         <Sidebar
           routes={routes.filter(route => route.layout === `/${accountType}`)}
           logo={{
@@ -108,7 +110,6 @@ const Admin = (props) => {
             <AdminFooter />
           </Container>
         </Box>
-      </>
     </>
   );
 };
