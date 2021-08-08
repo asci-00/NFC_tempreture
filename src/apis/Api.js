@@ -1,11 +1,7 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux'
-import { initAuth } from 'actions/auth'
-
-const dispatch = useDispatch()
 
 const Api = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost'
+    baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://210.119.104.206:8080'
 })
 
 Api.defaults.headers.common['Content-Type'] = 'application/json';
@@ -14,7 +10,7 @@ Api.interceptors.response.use(
     res => {
         if (res.data.rt === 403 && res.config.url !== '/login') {
             delete Api.defaults.headers.common["token"];
-            dispatch(initAuth());
+            window.location.reload('/auth/logout')
         }
         return res;
     }

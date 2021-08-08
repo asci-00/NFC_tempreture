@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button'
 import Backdrop from '@material-ui/core/Backdrop';
-import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is required for IE 11 support
+import { useSpring, animated } from '@react-spring/web'; // web.cjs is required for IE 11 support
 
 import { useSelector, useDispatch } from 'react-redux'
-import { closePopup } from '/actions/popup'
+import { closePopup } from 'actions/popup'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -18,17 +18,23 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
+        borderRadius: '5px',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        minWidth: '400px'
     },
     title: {
 
     },
     message: {
-
+        textAlign: 'center',
+        minHeight: '100px',
+        lineHeight: '100px',
+        verticalAlign: 'middle',
+        fontSize:'20px',
     },
     buttonGroup: {
-
+        textAlign: 'center'
     }
 }))
 const Fade = React.forwardRef(function Fade(props, ref) {
@@ -55,8 +61,9 @@ export default function Alert() {
     const dispatch = useDispatch()
     const classes = useStyles();
 
-    const onClose = () => { dispatch(closePopup); config.onClose() }
-
+    const onClose = () => { config.onClose(); dispatch(closePopup()); }
+    const onSubmit = () => { config.onSubmit(); onClose() }
+    const onCancel = () => { config.onCancel(); onClose() }
     return (
         <Modal
             aria-labelledby="spring-modal-title"
@@ -67,13 +74,13 @@ export default function Alert() {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{ timeout: 500 }}>
-            <Fade in={open}>
+            <Fade in={config.visible}>
                 <div className={classes.paper}>
-                    <h2 className={classes.title}>{config.title}</h2>
-                    <p className={classes.message}>{config.message}</p>
+                    {config.title && <h2 className={classes.title}>{config.title}</h2>}
+                    <div className={classes.message}>{config.message}</div>
                     <div className={classes.buttonGroup}>
-                        { config.submit && <Button variant="contained" color="primary" onClick={config.onSubmit}>{config.submitText}</Button> }
-                        { config.cancel && <Button variant="contained" color="secondary"  onClick={config.onCancel}>{config.cancelText}</Button> }
+                        { config.submit && <Button variant="contained" color="primary" onClick={onSubmit}>{config.submitText}</Button> }
+                        { config.cancel && <Button variant="contained" color="secondary" onClick={onCancel}>{config.cancelText}</Button> }
                     </div>
                 </div>
             </Fade>

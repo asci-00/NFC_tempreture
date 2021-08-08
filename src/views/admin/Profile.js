@@ -25,7 +25,6 @@ import School from "@material-ui/icons/School";
 import UserHeader from "components/Headers/UserHeader.js";
 
 import componentStyles from "assets/theme/views/admin/profile.js";
-import boxShadows from "assets/theme/box-shadow.js";
 
 const useStyles = makeStyles(componentStyles);
 
@@ -33,7 +32,11 @@ function Profile() {
   const classes = useStyles();
   const theme = useTheme();
   const [editable, setEditable] = useState(false)
-  const { name, email, accountType } = useSelector(state => state.auth)
+  const { 
+    name, email,
+    address,
+    groupName
+  } = useSelector(state => state.auth)
 
   return (
     <>
@@ -123,12 +126,12 @@ function Profile() {
                           component={Box}
                           width="100%"
                           marginBottom="1rem!important"
-                          disabled={!editable}
                         >
                           <Box
                             paddingLeft="0.75rem"
                             paddingRight="0.75rem"
                             component={FilledInput}
+                            disabled={!editable}
                             autoComplete="off"
                             type="text"
                             defaultValue={name}
@@ -144,12 +147,12 @@ function Profile() {
                           component={Box}
                           width="100%"
                           marginBottom="1rem!important"
-                          disabled={true}
                         >
                           <Box
                             paddingLeft="0.75rem"
                             paddingRight="0.75rem"
                             component={FilledInput}
+                            disabled={true}
                             autoComplete="off"
                             type="email"
                             placeholder="name@example.com"
@@ -188,12 +191,12 @@ function Profile() {
                           component={Box}
                           width="100%"
                           marginBottom="1rem!important"
-                          disabled={!editable}
                         >
                           <Box
                             paddingLeft="0.75rem"
                             paddingRight="0.75rem"
                             component={FilledInput}
+                            disabled={!editable}
                             autoComplete="off"
                             type="text"
                             defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
@@ -203,28 +206,28 @@ function Profile() {
                     </Grid>
                   </Grid>
                   <Grid container>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} lg={6}>
                       <FormGroup>
-                        <FormLabel>City</FormLabel>
+                        <FormLabel>Group name</FormLabel>
                         <FormControl
                           variant="filled"
                           component={Box}
                           width="100%"
                           marginBottom="1rem!important"
-                          disabled={!editable}
                         >
                           <Box
                             paddingLeft="0.75rem"
                             paddingRight="0.75rem"
                             component={FilledInput}
+                            disabled={!editable}
                             autoComplete="off"
                             type="text"
-                            defaultValue="New York"
+                            defaultValue={groupName}
                           />
                         </FormControl>
                       </FormGroup>
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} lg={6}>
                       <FormGroup>
                         <FormLabel>Country</FormLabel>
                         <FormControl
@@ -240,26 +243,6 @@ function Profile() {
                             autoComplete="off"
                             type="text"
                             defaultValue="United States"
-                          />
-                        </FormControl>
-                      </FormGroup>
-                    </Grid>
-                    <Grid item xs={12} lg={4}>
-                      <FormGroup>
-                        <FormLabel>Postal code</FormLabel>
-                        <FormControl
-                          variant="filled"
-                          component={Box}
-                          width="100%"
-                          marginBottom="1rem!important"
-                        >
-                          <Box
-                            paddingLeft="0.75rem"
-                            paddingRight="0.75rem"
-                            component={FilledInput}
-                            autoComplete="off"
-                            type="text"
-                            placeholder="Postal code"
                           />
                         </FormControl>
                       </FormGroup>
@@ -315,7 +298,6 @@ function Profile() {
                       height="1.25rem!important"
                       marginRight=".5rem"
                     ></Box>
-                    {accountType}
                   </Box>
                 </Box>
               </Box>

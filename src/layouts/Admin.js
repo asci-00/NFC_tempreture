@@ -34,14 +34,16 @@ const Admin = (props) => {
 
   React.useEffect(() => {
     if(isLogin) {
-      if(getUserPath(level) !== location) props.history.push(getUserPath(level))
+      if(!location['pathname'].includes(getUserPath(level))) {
+        props.history.push(getUserPath(level))
+      }
       document.documentElement.scrollTop = 0
       document.scrollingElement.scrollTop = 0
     } else props.history.push('/auth')
   }, [location]);
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === `/${accountType}`) {
+      if (prop.layout === getUserPath(level)) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -67,9 +69,9 @@ const Admin = (props) => {
   return (
     <>
         <Sidebar
-          routes={routes.filter(route => route.layout === `/${accountType}`)}
+          routes={routes.filter(route => route.layout === getUserPath(level))}
           logo={{
-            innerLink: `/${accountType}/index`,
+            innerLink: `${getUserPath(level)}/index`,
             imgSrc: require("../assets/img/brand/argon-react.png").default,
             imgAlt: "...",
           }}
@@ -100,7 +102,7 @@ const Admin = (props) => {
           <AdminNavbar brandText={getBrandText(location.pathname)} />
           <Switch>
             {getRoutes(routes)}
-            <Redirect from="*" to={`/${accountType}/index`} />
+            <Redirect from="*" to={`${getUserPath(level)}/index`} />
           </Switch>
           <Container
             maxWidth={false}

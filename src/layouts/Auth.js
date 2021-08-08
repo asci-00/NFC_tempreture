@@ -7,7 +7,6 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
 // core components
-import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import AuthHeader from "components/Headers/AuthHeader.js";
 import AuthFooter from "components/Footers/AuthFooter.js";
 
@@ -16,10 +15,11 @@ import routes from "routes.js";
 import componentStyles from "assets/theme/layouts/auth.js";
 
 import { useDispatch, useSelector } from 'react-redux'
-import { requestAuth } from 'actions/auth'
+import { requestAuth, setAuth } from 'actions/auth'
 
 import { getUserPath } from 'assets/js/common.js'
-const useStyles = makeStyles(componentStyles);
+
+const useStyles = makeStyles(componentStyles)
 
 const Auth = (props) => {
   const classes = useStyles();
@@ -27,7 +27,6 @@ const Auth = (props) => {
   const { isLogin, level } = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const location = useLocation();
-
   React.useEffect(() => {
     //body css class 수정
     document.body.classList.add(classes.bgDefault);
@@ -36,7 +35,7 @@ const Auth = (props) => {
     if(token) {
       if(isLogin) props.history.push(getUserPath(level))
       else {
-        sessionStorage.remove('token')
+        sessionStorage.removeItem('token')
         dispatch(requestAuth({token})) //create action getUserInfo
       }
     }
@@ -49,6 +48,17 @@ const Auth = (props) => {
     document.scrollingElement.scrollTop = 0;
     mainContent.current.scrollTop = 0;
   }, [location]);
+
+  React.useEffect(async () => {
+    if (sessionStorage.getItem('token')) {  //login session 존재 확인
+      try {
+        const loginInfo = {test : 'apply'}//await Auth.getUserInfo(sessionStorage.getItem('token'))
+        dispatch(setAuth({loginInfo}))
+        props.history.push(getUserPath(level))
+      } 
+      catch(e) { sessionStorage.remove('token') } 
+    }
+  }, [])
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
@@ -69,7 +79,7 @@ const Auth = (props) => {
   return (
     <>
       <div className="main-content" ref={mainContent}>
-        <AuthNavbar />
+        
         <AuthHeader />
         {/* Page content */}
         <Container

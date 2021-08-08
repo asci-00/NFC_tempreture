@@ -1,4 +1,4 @@
 import Api from './Api'
 
-export const userSignIn = ({uuid}) => Api.post('/common/user/info', { uuid })
-export const userSignUp = ({name, groupCode}) => Api.post('/user/', {name, groupCode})
+export const getAuthInfo = ({uuid, token}) => Api.get('/v1/common/user/info', { uuid, token })
+export const userSignUp = ({name, groupCode}) => Api.get('/user/', {name, groupCode})

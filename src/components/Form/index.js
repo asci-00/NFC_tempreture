@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 
 import { DateRangePicker } from 'rsuite'
 import 'rsuite/dist/styles/rsuite-default.css';

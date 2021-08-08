@@ -1,22 +1,21 @@
-import { put, takeEvery, delay } from 'redux-saga/effects';
+import { put, takeEvery, call } from 'redux-saga/effects';
 //actions
 import { 
   REQUEST_AUTH,
   SET_AUTH,
+  INIT_AUTH,
   requestAuthFail, setAuth 
 } from 'actions/auth'
 //apis
 import * as Api from 'apis/auth'
 
 function* requestAuthSaga(action) {   //API 호출
-  yield delay(1000)
   try {
-    const res = await Api.getAuthInfo(action.payload)
-    yield put(setAuth({...res.data}))
-    sessionStorage.setItem('token', res.data.token)
+    const { data } = yield call(Api.getAuthInfo, action.payload)
+    yield put(setAuth({...data.data}))
+    sessionStorage.setItem('token', data.token)
   } catch(err) { yield put(requestAuthFail()) }
   //if api call fail
-
 }
 
 export function* authSaga() {
@@ -26,14 +25,12 @@ export function* authSaga() {
 
 const initialState = {
   isLogin : false,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
-  level : -1,
-  name : 'GUEST',
-  groupCode : '',
-  email : '',
-  uuid : '',
+  uuid : '', level : -1,
+  name : '',groupCode : '',
+  groupName : '',email : '',
 }
 
-export default function auth(state = initialState, action) {
+export default function auth(state = initialState, action) {  
   switch (action.type) {
     case SET_AUTH:
       return { 

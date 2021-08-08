@@ -18,9 +18,6 @@ import Person from "@material-ui/icons/Person"
 // core components
 import componentStyles from "assets/theme/components/navbar-dropdown.js"
 
-// action type
-import { setAuth } from 'reducer/auth'
-
 const useStyles = makeStyles(componentStyles)
 
 export default function NavbarDropdown(props) {
@@ -83,9 +80,6 @@ export default function NavbarDropdown(props) {
         display="flex!important"
         alignItems="center!important"
         component={MenuItem}
-        onClick={() => {
-          dispatch(setAuth({accountType : 'guest'}))
-        }}
       >
         <Box
           component={DirectionsRun}

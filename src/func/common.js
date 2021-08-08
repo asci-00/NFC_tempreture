@@ -1,7 +1,9 @@
-import { useDispatch } from 'react-redux'
-import { setPopupConfig, setPopupMessage } from '/actions/popup'
-const dispatch = useDispatch()
-export default function alert(config) { 
-    if(typeof config === 'string') dispatch(setPopupMessage(config))
-    else dispatch(setPopupConfig(config)) 
+import store from 'store.js'
+import { setPopupConfig, setPopupMessage } from 'actions/popup'
+
+export default function alert(config) {
+    const action = 
+        typeof config === 'string' ? 
+            setPopupMessage(config) : setPopupConfig(config)
+    store.dispatch(action)
 }

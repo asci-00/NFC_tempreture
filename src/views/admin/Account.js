@@ -15,7 +15,7 @@ import Header from "components/Headers/Header.js";
 //user component
 import { columns, sample_data } from 'modules/static/account';
 //debuging data
-import { getUsers, updatePermission, removeUser } from 'apis/User'
+//import { getUsers, updatePermission, removeUser } from 'apis/User'
 
 const useStyles = makeStyles(componentStyles);
 
@@ -24,17 +24,16 @@ const Tables = ({onUpdate, data=[], openDialog, openError}) => {
   const UUID = useSelector(state => state.auth.uuid)
 
   const onPermissionUpdate = ({uuid, code}, action) => {
-          updatePermission({ UUID, targetUUID : uuid, targetGroupCode : code, action }).then(res => {
-            openDialog('권한 업데이트 완료')
-            onUpdate()
-          }).catch(err => openError(err))
-        },
-        onUserRemove = ({uuid}) => {
-          removeUser({ UUID, targetUUID : uuid}).then(res => {
-            openDialog('유저 삭제 완료')
-            onUpdate()
-          }).catch(err => openError(err))
-        }
+    // updatePermission({ UUID, targetUUID : uuid, targetGroupCode : code, action }).then(res => {
+    //   openDialog('권한 업데이트 완료')
+    //   onUpdate()
+    // }).catch(err => openError(err))
+  },    onUserRemove = ({uuid}) => {
+    // removeUser({ UUID, targetUUID : uuid}).then(res => {
+    //   openDialog('유저 삭제 완료')
+    //   onUpdate()
+    // }).catch(err => openError(err))
+  }
 
 
   return (
