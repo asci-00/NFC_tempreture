@@ -10,22 +10,16 @@ import CardHeader from "@material-ui/core/CardHeader"
 import Grid from "@material-ui/core/Grid"
 // core components
 import componentStyles from "assets/theme/views/auth/login.js"
-
+import alert from 'func/common.js'
 // action type
-import { requestAuth, setAuth } from 'actions/auth'
-
-// User Components
-import Warning from 'components/Dialog/Warning'
+import { requestAuth } from 'actions/auth'
 
 // User functionable file
 import { signInWithGoogle, signInWithApple, getIDToken } from 'firebase.config'
-import Auth from "../../layouts/Auth"
 
 const useStyles = makeStyles(componentStyles)
 
 function Login(props) {
-  const [open, setOpen] = useState(false)
-  const { isLogin, accountType } = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const classes = useStyles()
   const theme = useTheme()
@@ -38,9 +32,6 @@ function Login(props) {
   }
   return (
     <>
-      <Warning open={open} onClose={() => setOpen(false)}>
-        아이디와 패스워드를 입력하십시오.
-      </Warning>
       <Grid item xs={12} lg={5} md={7}>
         <Card classes={{ root: classes.cardRoot }}>
           <CardHeader

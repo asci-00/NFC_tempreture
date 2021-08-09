@@ -5,7 +5,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import componentStyles from "assets/theme/views/admin/dashboard.js";
-import MaterialTable from 'material-table';
+import commonStyles from "assets/theme/views/admin/common.js";
+import MaterialTable, { MTableToolbar }  from 'material-table';
 //@material-ui components
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import PanToolIcon from '@material-ui/icons/PanTool';
@@ -17,10 +18,12 @@ import { columns, sample_data } from 'modules/static/account';
 //debuging data
 //import { getUsers, updatePermission, removeUser } from 'apis/User'
 
-const useStyles = makeStyles(componentStyles);
+const useStyles = makeStyles(componentStyles),
+      useStyles2 = makeStyles(commonStyles)
 
 const Tables = ({onUpdate, data=[], openDialog, openError}) => {
   const classes = useStyles();
+  const commonClasses = useStyles2()
   const UUID = useSelector(state => state.auth.uuid)
 
   const onPermissionUpdate = ({uuid, code}, action) => {
@@ -74,6 +77,11 @@ const Tables = ({onUpdate, data=[], openDialog, openError}) => {
             },
           }}
           localization={{header: {actions: ""}}}
+          components={{
+            Toolbar : props => (
+            <div className={commonClasses.removeUnderline}><MTableToolbar {...props} /></div>
+            )
+          }}
         />
       </Container>
     </>

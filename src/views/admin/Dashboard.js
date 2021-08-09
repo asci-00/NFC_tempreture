@@ -36,7 +36,7 @@ import {
 } from "variables/charts.js";
 
 import componentStyles from "assets/theme/views/admin/dashboard.js";
-import alert from 'func/common.js'
+
 const useStyles = makeStyles(componentStyles);
 
 function Dashboard() {
@@ -236,7 +236,6 @@ function Dashboard() {
                           variant="contained"
                           color="primary"
                           size="small"
-                          onClick={()=>alert('test')}
                         >
                           See all
                         </Button>

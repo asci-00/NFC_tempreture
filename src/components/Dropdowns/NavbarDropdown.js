@@ -1,5 +1,5 @@
 import React from "react"
-import { useDispatch } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles"
 import Avatar from "@material-ui/core/Avatar"
@@ -18,17 +18,23 @@ import Person from "@material-ui/icons/Person"
 // core components
 import componentStyles from "assets/theme/components/navbar-dropdown.js"
 
+import { useSelector } from 'react-redux'
+import { getUserPath } from 'assets/js/common.js'
+
 const useStyles = makeStyles(componentStyles)
 
-export default function NavbarDropdown(props) {
+function NavbarDropdown(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const dispatch = useDispatch()
   const isMenuOpen = Boolean(anchorEl)
+  const { name, level } = useSelector(state => state.auth)
 
   const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget)
   const handleMenuClose = () => setAnchorEl(null)
-
+  const onLogout = () => {
+    sessionStorage.removeItem('token')
+    window.location.replace('/')
+  }
   const menuId = "primary-search-account-menu"
   const renderMenu = (
     <Menu
@@ -51,7 +57,7 @@ export default function NavbarDropdown(props) {
         display="flex!important"
         alignItems="center!important"
         component={MenuItem}
-        onClick={handleMenuClose}
+        onClick={() => props.history.push(getUserPath(level) + `/user-profile`)}
       >
         <Box
           component={Person}
@@ -80,6 +86,7 @@ export default function NavbarDropdown(props) {
         display="flex!important"
         alignItems="center!important"
         component={MenuItem}
+        onClick={onLogout}
       >
         <Box
           component={DirectionsRun}
@@ -113,9 +120,11 @@ export default function NavbarDropdown(props) {
             root: classes.avatarRoot,
           }}
         />
-        <Hidden smDown>Jessica Jones</Hidden>
+        <Hidden smDown>{name}</Hidden>
       </Button>
       {renderMenu}
     </>
   )
 }
+
+export default withRouter(NavbarDropdown)

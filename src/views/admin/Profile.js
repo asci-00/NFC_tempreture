@@ -25,6 +25,7 @@ import School from "@material-ui/icons/School";
 import UserHeader from "components/Headers/UserHeader.js";
 
 import componentStyles from "assets/theme/views/admin/profile.js";
+import alert from 'func/common.js'
 
 const useStyles = makeStyles(componentStyles);
 
@@ -86,11 +87,15 @@ function Profile() {
                         display="flex"
                         flexWrap="wrap"
                       >
-                        <Tooltip title="권한이 필요치 않은 요청은 즉시 적용됩니다." classes={{ tooltip : classes.tooltip}}>
+                        <Tooltip title="승인이 필요한 변경사항은 적용에 시간이 걸릴 수 있습니다." classes={{ tooltip : classes.tooltip}}>
                           <Button
                             variant="contained"
                             color="primary"
                             size="small"
+                            onClick={() => alert({
+                              message : '변경사항을 적용하겠습니까?',
+                              onSubmit : () => {}
+                            })}
                           >변경요청</Button>
                         </Tooltip>
                       </Box>
