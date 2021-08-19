@@ -57,7 +57,10 @@ function NavbarDropdown(props) {
         display="flex!important"
         alignItems="center!important"
         component={MenuItem}
-        onClick={() => props.history.push(getUserPath(level) + `/user-profile`)}
+        onClick={() => {
+          props.history.push(getUserPath(level) + `/user-profile`)
+          handleMenuClose()
+        }}
       >
         <Box
           component={Person}

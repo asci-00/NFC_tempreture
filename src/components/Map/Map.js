@@ -30,7 +30,7 @@ export default function MapWrapper ({data}) {
       }).setMap(map)
       
       data.forEach((log, idx) => {
-        const {lat, lng, building_name, dateTime} = log
+        const {latitude : lat, longitude : lng, building_name, dateTime} = log
         const marker = new google.maps.Marker({
             position: {lat, lng},
             map: map,
@@ -43,7 +43,6 @@ export default function MapWrapper ({data}) {
         const infowindow = new google.maps.InfoWindow({ content: contentString, });
         google.maps.event.addListener(marker, "click", function () { infowindow.open(map, marker) })
       })
-
     });
     return (
       <>

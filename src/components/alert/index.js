@@ -76,12 +76,16 @@ export default function Alert() {
             BackdropProps={{ timeout: 500 }}>
             <Fade in={config.visible}>
                 <div className={classes.paper}>
-                    {config.title && <h2 className={classes.title}>{config.title}</h2>}
-                    <div className={classes.message}>{config.message}</div>
-                    <div className={classes.buttonGroup}>
-                        { config.submit && <Button variant="contained" color="primary" onClick={onSubmit}>{config.submitText}</Button> }
-                        { config.cancel && <Button variant="contained" color="secondary" onClick={onCancel}>{config.cancelText}</Button> }
-                    </div>
+                    {config.type === 'html' ? config.message : 
+                        <div>
+                            {config.title && <h2 className={classes.title}>{config.title}</h2>}
+                            <div className={classes.message}>{config.message}</div>
+                            <div className={classes.buttonGroup}>
+                                { config.submit && <Button variant="contained" color="primary" onClick={onSubmit}>{config.submitText}</Button> }
+                                { config.cancel && <Button variant="contained" color="secondary" onClick={onCancel}>{config.cancelText}</Button> }
+                            </div>
+                        </div>
+                    }                    
                 </div>
             </Fade>
         </Modal>

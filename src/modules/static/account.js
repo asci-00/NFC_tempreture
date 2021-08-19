@@ -14,6 +14,6 @@ export const sample_data = [
 export const columns = [
     { title: 'Name', field: 'displayname' },
     { title: 'EMail', field: 'email' },
-    { title: 'GroupAddress', field: 'groupAddr' },
-    { title : 'GroupName', field : 'groupName' },
+    { title: 'Uuid', field: 'UUID' },
+    { title : 'GroupName', field : 'Group_code' },
 ]

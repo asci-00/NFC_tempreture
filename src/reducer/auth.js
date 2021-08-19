@@ -1,15 +1,16 @@
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call, all } from 'redux-saga/effects';
 //actions
 import { 
-  REQUEST_AUTH,
+  REQUEST_AUTH, REQUEST_FAIL,
   SET_AUTH,
   INIT_AUTH,
-  requestAuthFail, setAuth 
+  requestAuthFail, setAuth, initAuth 
 } from 'actions/auth'
 //apis
 import * as Api from 'apis/auth'
+import alert from 'func/common.js'
 
-function* requestAuthSaga(action) {   //API 호출
+function* requestAuthSaga(action) {     //API 호출
   try {
     const { data } = yield call(Api.getAuthInfo, action.payload)
     yield put(setAuth({...data.data}))
@@ -18,9 +19,19 @@ function* requestAuthSaga(action) {   //API 호출
   //if api call fail
 }
 
+function* requestAuthFailSaga(action) { //API 호출
+  const err = action.payload
+  console.log(err)
+  sessionStorage.removeItem('token')
+  //alert('')
+  yield put(initAuth())
+}
+
 export function* authSaga() {
-  yield takeEvery(REQUEST_AUTH, requestAuthSaga); // 모든 INCREASE_ASYNC 액션을 처리
-  //yield takeLatest(DECREASE_ASYNC, decreaseSaga); // 가장 마지막으로 디스패치된 DECREASE_ASYNC 액션만을 처리
+  yield all([
+    takeEvery(REQUEST_AUTH, requestAuthSaga),       // 모든 INCREASE_ASYNC 액션을 처리
+    takeLatest(REQUEST_FAIL, requestAuthFailSaga),
+  ])
 }
 
 const initialState = {
@@ -28,6 +39,7 @@ const initialState = {
   uuid : '', level : -1,
   name : '',groupCode : '',
   groupName : '',email : '',
+  error: undefined
 }
 
 export default function auth(state = initialState, action) {  

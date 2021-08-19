@@ -6,24 +6,25 @@ const initialState = {
   title: undefined, 
   message : 'Message',
   submit : true, cancel : true,
+  type : 'text',
   submitText: '확인', cancelText: '취소',
   onSubmit : () => {}, onCancel : () => {},
   onClose : () => {},
   visible : false
 }
 
-export default function popup(state = initialState, action) {
+export default function popup(state = { ...initialState }, action) {
   console.log(action)
   switch (action.type) {
     case SET_POPUP_CONFIG:
       return { 
-        ...state, 
+        ...initialState,
         ...action.payload,
         visible:true
       }
     case SET_POPUP_MESSAGE:
       return { 
-        ...state, 
+        ...initialState,
         message : action.payload,
         visible:true
       }

@@ -1,91 +1,83 @@
-import React from "react";
-import { useSelector } from 'react-redux'
 //react library
+import React from "react";
+//@material-ui components
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import componentStyles from "assets/theme/views/admin/dashboard.js";
-import commonStyles from "assets/theme/views/admin/common.js";
-import MaterialTable, { MTableToolbar }  from 'material-table';
-//@material-ui components
+import MaterialTable, { MTableToolbar } from 'material-table';
+//icons
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import PanToolIcon from '@material-ui/icons/PanTool';
-//icons
+//styles
+import { makeStyles } from "@material-ui/core/styles";
+import commonStyles from "assets/theme/views/admin/common.js";
+//layout
 import Header from "components/Headers/Header.js";
-//import ManageGroup from "components/account/groupManage"
 //user component
-import { columns, sample_data } from 'modules/static/account';
-//debuging data
-//import { getUsers, updatePermission, removeUser } from 'apis/User'
-
-const useStyles = makeStyles(componentStyles),
-      useStyles2 = makeStyles(commonStyles)
-
-const Tables = ({onUpdate, data=[], openDialog, openError}) => {
-  const classes = useStyles();
-  const commonClasses = useStyles2()
-  const UUID = useSelector(state => state.auth.uuid)
-
-  const onPermissionUpdate = ({uuid, code}, action) => {
-    // updatePermission({ UUID, targetUUID : uuid, targetGroupCode : code, action }).then(res => {
-    //   openDialog('권한 업데이트 완료')
-    //   onUpdate()
-    // }).catch(err => openError(err))
-  },    onUserRemove = ({uuid}) => {
-    // removeUser({ UUID, targetUUID : uuid}).then(res => {
-    //   openDialog('유저 삭제 완료')
-    //   onUpdate()
-    // }).catch(err => openError(err))
-  }
+import alert from 'func/common'
+//api request
+import { getRequest, deleteRequest, setRequest } from 'apis/account'
+//static configuration data
+import { columns } from 'modules/static/account'
+//hoc component
+import DataController from 'components/DataController'
 
 
-  return (
-    <>
-      <Header />
-      {/* Page content */}
-      <Container
-        maxWidth={false}
-        component={Box}
-        marginTop="-6rem"
-        // classes={{ root: classes.containerRoot }}
-      >
-        <MaterialTable
-          columns = {columns} data = {sample_data} title={<div className={classes.title}>관리자 목록</div>}
-          actions={[
-            rowData => ({
-              icon: PermIdentityIcon,
-              tooltip: '권한 허용',
-              onClick: (event, rowData) => onPermissionUpdate(rowData, 'GRANT'),
-              disabled : (rowData['groupRequest'] !== 'wait')
-            }),
-            rowData => ({
-              icon: PanToolIcon,
-              tooltip: '권한 회수',
-              onClick: (event, rowData) => onPermissionUpdate(rowData, 'REVOKE'),
-              disabled : (rowData['groupRequest'] !== 'done')
-            }),
-            {
-              icon: 'delete',
-              tooltip: 'Delete User',
-              onClick: (event, rowData) => onUserRemove(rowData)
-            }
-          ]}
-          options={{
-            actionsColumnIndex: -1,
-            headerStyle: {
-              backgroundColor: '#eee',
-            },
-          }}
-          localization={{header: {actions: ""}}}
-          components={{
-            Toolbar : props => (
-            <div className={commonClasses.removeUnderline}><MTableToolbar {...props} /></div>
-            )
-          }}
-        />
-      </Container>
-    </>
-  );
-};
+const useStyles = makeStyles(commonStyles)
 
-export default Tables;
+const AccountPage = (props) => {
+    const { data, requestAPI } = props
+    const commonC = useStyles()
+    /*data change*/
+    return (
+        <>
+            <Header />
+            {/* Page content */}
+            <Container
+                maxWidth={false}
+                component={Box}
+                marginTop="-6rem">
+                <MaterialTable
+                    columns={columns}
+                    data={data}
+                    actions={[
+                        rowData => ({
+                            icon: PermIdentityIcon,
+                            tooltip: '권한 허용',
+                            onClick: (event, rowData) => requestAPI(setRequest, { type: 'GRANT', data: { ...rowData } }),
+                            disabled: (rowData['groupRequest'] !== 'wait')
+                        }),
+                        rowData => ({
+                            icon: PanToolIcon,
+                            tooltip: '권한 회수',
+                            onClick: (event, rowData) => requestAPI(setRequest, { type: 'REVOKE', data: { ...rowData } }),
+                            disabled: (rowData['groupRequest'] !== 'done')
+                        }),
+                        {
+                            icon: 'delete',
+                            tooltip: '사용자 제거',
+                            onClick: (event, rowData) => requestAPI(deleteRequest, { data: { ...rowData } })
+                        }
+                    ]}
+                    options={{
+                        actionsColumnIndex: -1,
+                        headerStyle: {
+                            backgroundColor: '#eee',
+                        },
+                    }}
+                    localization={{ header: { actions: "" } }}
+                    components={{
+                        Toolbar: props => (
+                            <div className={commonC.toolbar}><MTableToolbar {...props} /></div>
+                        )
+                    }}
+                />
+            </Container>
+        </>
+    )
+
+}
+
+export default DataController(AccountPage, {
+    dataRequest: getRequest,
+    dataTransform : (res) => res.data.data
+})

@@ -1,5 +1,10 @@
 const componentStyles = (theme) => ({
-  removeUnderline : {
+  toolbar : {
+    fontSize: '20px',
+    '& .MuiTypography-h6' : {
+      fontSize : '20px',
+      marginTop: '5px',
+    },
     '& .MuiInput-underline' : {
       '&:after, &:before' : {
         borderBottom:'none !important'
@@ -11,12 +16,9 @@ const componentStyles = (theme) => ({
       minHeight:'565px',
       overflow:'hidden'
   },
-  tableToolbar: {
-    '& .MuiTypography-h6' : {
-      fontSize : '20px'
-    },
+  smallSearch: {    
     '& input' : { width:'160px'}
-  }
+  },
 });
 
 export default componentStyles;

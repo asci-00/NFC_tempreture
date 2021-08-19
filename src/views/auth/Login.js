@@ -10,10 +10,8 @@ import CardHeader from "@material-ui/core/CardHeader"
 import Grid from "@material-ui/core/Grid"
 // core components
 import componentStyles from "assets/theme/views/auth/login.js"
-import alert from 'func/common.js'
 // action type
 import { requestAuth } from 'actions/auth'
-
 // User functionable file
 import { signInWithGoogle, signInWithApple, getIDToken } from 'firebase.config'
 
@@ -25,10 +23,13 @@ function Login(props) {
   const theme = useTheme()
 
   const onDebug = (data) => ({ accountType: data.id })
-  const onLogin = (userInfo) => {
+  const onLogin = async (userInfo) => {
     const { additionalUserInfo, } = userInfo
     if(additionalUserInfo.isNewUser) props.history.push('/regist')
-    else dispatch(requestAuth({token : getIDToken()}))
+    else {
+      const token = await getIDToken()
+      dispatch(requestAuth({ token }))
+    }
   }
   return (
     <>

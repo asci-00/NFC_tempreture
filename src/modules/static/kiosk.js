@@ -1,18 +1,107 @@
 export const sample_data = [
-    {displayname : 'user1', email : 'user1@email.com', }, 
-    {displayname : 'user2', email : 'user2@email.com', }, 
-    {displayname : 'user3', email : 'user3@email.com', }, 
-    {displayname : 'user4', email : 'user4@email.com', }, 
-    {displayname : 'user5', email : 'user5@email.com', }, 
-    {displayname : 'user6', email : 'user6@email.com', }, 
-    {displayname : 'user7', email : 'user7@email.com', }, 
-    {displayname : 'user8', email : 'user8@email.com', }, 
-    {displayname : 'user9', email : 'user9@email.com', }, 
-    {displayname : 'user10', email : 'user10@email.com', }, 
-    {displayname : 'user11', email : 'user11@email.com', },
+    {
+        "Group_code": "041-31499-g1",
+        "building_name": "1공학관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1111",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g2",
+        "building_name": "1공학관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1112",
+        "kioskset_log": "",
+        "latitude": "36.7365",
+        "longitude": "127.073"
+      },
+      {
+        "Group_code": "041-31499-g3",
+        "building_name": "1공학관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1113",
+        "kioskset_log": "",
+        "latitude": "36.735",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g4",
+        "building_name": "2공학관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1114",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g5",
+        "building_name": "2공학관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1115",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g6",
+        "building_name": "2공학관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1116",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g7",
+        "building_name": "강석규교육관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1117",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g8",
+        "building_name": "강석규교육관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1118",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g9",
+        "building_name": "강석규교육관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1119",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g10",
+        "building_name": "강석규교육관",
+        "detail_position": "충청남도 아산시 배방읍",
+        "kiosk_SN": "KSN1120",
+        "kioskset_log": "",
+        "latitude": "36.7364",
+        "longitude": "127.074"
+      },
+      {
+        "Group_code": "041-31499-g1",
+        "building_name": "",
+        "detail_position": "",
+        "kiosk_SN": "ksn1121",
+        "kioskset_log": "2021-08-17 05:01:53",
+        "latitude": "",
+        "longitude": ""
+      }
 ]
 export const columns = [
-    { title: '웨어러블S/N', field: 'wearable_SN', align:'center', cellStyle : {
-        
-    } },
+    { title: '그룹코드', field: 'Group_code', align: 'center' },
+    { title: '건물', field: 'building_name', align: 'center' },
+    { title: '주소', field: 'detail_position', align: 'center' },
+    { title: 'S/N', field: 'kiosk_SN', align: 'center' },
 ]
