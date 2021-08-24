@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from 'react-redux'
+import React from "react"
+import { useDispatch } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles"
 import { useTheme } from "@material-ui/core/styles"
@@ -11,18 +11,19 @@ import Grid from "@material-ui/core/Grid"
 // core components
 import componentStyles from "assets/theme/views/auth/login.js"
 // action type
-import { requestAuth } from 'actions/auth'
+import { requestAuth, clearError } from 'actions/auth'
 // User functionable file
 import { signInWithGoogle, signInWithApple, getIDToken } from 'firebase.config'
+import alert from 'func/common.js'
 
 const useStyles = makeStyles(componentStyles)
 
 function Login(props) {
   const dispatch = useDispatch()
+  const error = useSelector(state => state.auth.error)
   const classes = useStyles()
   const theme = useTheme()
 
-  const onDebug = (data) => ({ accountType: data.id })
   const onLogin = async (userInfo) => {
     const { additionalUserInfo, } = userInfo
     if(additionalUserInfo.isNewUser) props.history.push('/regist')
@@ -31,6 +32,13 @@ function Login(props) {
       dispatch(requestAuth({ token }))
     }
   }
+
+  if(error) alert({
+    message: 'Login fail!',
+    cancel : false,
+    onClose : () => dispatch(clearError())
+  })
+
   return (
     <>
       <Grid item xs={12} lg={5} md={7}>

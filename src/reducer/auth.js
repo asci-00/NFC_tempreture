@@ -4,11 +4,11 @@ import {
   REQUEST_AUTH, REQUEST_FAIL,
   SET_AUTH,
   INIT_AUTH,
+  CLEAR_ERROR,
   requestAuthFail, setAuth, initAuth 
 } from 'actions/auth'
 //apis
 import * as Api from 'apis/auth'
-import alert from 'func/common.js'
 
 function* requestAuthSaga(action) {     //API 호출
   try {
@@ -52,6 +52,8 @@ export default function auth(state = initialState, action) {
       }
     case INIT_AUTH:
       return { ...initialState }
+    case CLEAR_ERROR:
+      return { ...state, error: undefined}
     default:
       return state;
   }
