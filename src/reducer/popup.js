@@ -14,7 +14,6 @@ const initialState = {
 }
 
 export default function popup(state = { ...initialState }, action) {
-  console.log(action)
   switch (action.type) {
     case SET_POPUP_CONFIG:
       return { 

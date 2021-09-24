@@ -39,10 +39,11 @@ const initialState = {
   uuid : '', level : -1,
   name : '',groupCode : '',
   groupName : '',email : '',
+  address: '', approve : false,
   error: undefined
 }
 
-export default function auth(state = initialState, action) {  
+export default function auth(state = initialState, action) {
   switch (action.type) {
     case SET_AUTH:
       return { 
