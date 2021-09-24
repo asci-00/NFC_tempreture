@@ -8,7 +8,6 @@ import InputBase from "@material-ui/core/InputBase";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 // @material-ui/icons components
-import SearchIcon from "@material-ui/icons/Search";
 
 // core components
 import NavbarDropdown from "components/Dropdowns/NavbarDropdown.js";
