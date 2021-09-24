@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useSelector } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,7 +19,6 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from '@material-ui/core/Tooltip';
 // @material-ui/icons components
 import LocationOn from "@material-ui/icons/LocationOn";
-import School from "@material-ui/icons/School";
 
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
@@ -33,11 +32,18 @@ function Profile() {
   const classes = useStyles();
   const theme = useTheme();
   const [editable, setEditable] = useState(false)
-  const { 
-    name, email,
-    address,
-    groupName
-  } = useSelector(state => state.auth)
+  const [info, setInfo] = useState(useSelector(state => state.auth))
+  const { name, address } = useMemo(() => info, [])
+
+  const onChange = (key, value) => setInfo({...info, [key] : value})
+  const onSubmit = () => {
+    console.log(info)
+    setTimeout(() => alert({
+      message : '변경요청이 완료되었습니다.',
+      cancel : false,
+      onSubmit : () => {}
+    }), 0)
+  }
 
   return (
     <>
@@ -94,7 +100,7 @@ function Profile() {
                             size="small"
                             onClick={() => alert({
                               message : '변경사항을 적용하겠습니까?',
-                              onSubmit : () => {}
+                              onSubmit
                             })}
                           >변경요청</Button>
                         </Tooltip>
@@ -139,7 +145,8 @@ function Profile() {
                             disabled={!editable}
                             autoComplete="off"
                             type="text"
-                            defaultValue={name}
+                            value={info.name}
+                            onChange={e => onChange('name', e.target.value)}
                           />
                         </FormControl>
                       </FormGroup>
@@ -161,7 +168,8 @@ function Profile() {
                             autoComplete="off"
                             type="email"
                             placeholder="name@example.com"
-                            defaultValue={email}
+                            value={info.email}
+                            onChange={e => onChange('email', e.target.value)}
                           />
                         </FormControl>
                       </FormGroup>
@@ -184,11 +192,11 @@ function Profile() {
                   marginBottom="1.5rem!important"
                   classes={{ root: classes.typographyRootH6 }}
                 >
-                  Contact Information
+                  Detail Information
                 </Box>
                 <div className={classes.plLg4}>
                   <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} lg={6}>
                       <FormGroup>
                         <FormLabel>Address</FormLabel>
                         <FormControl
@@ -204,13 +212,12 @@ function Profile() {
                             disabled={!editable}
                             autoComplete="off"
                             type="text"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            value={info.address}
+                            onChange={e => onChange('address', e.target.value)}
                           />
                         </FormControl>
                       </FormGroup>
                     </Grid>
-                  </Grid>
-                  <Grid container>
                     <Grid item xs={12} lg={6}>
                       <FormGroup>
                         <FormLabel>Group name</FormLabel>
@@ -227,33 +234,27 @@ function Profile() {
                             disabled={!editable}
                             autoComplete="off"
                             type="text"
-                            defaultValue={groupName}
-                          />
-                        </FormControl>
-                      </FormGroup>
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                      <FormGroup>
-                        <FormLabel>Country</FormLabel>
-                        <FormControl
-                          variant="filled"
-                          component={Box}
-                          width="100%"
-                          marginBottom="1rem!important"
-                        >
-                          <Box
-                            paddingLeft="0.75rem"
-                            paddingRight="0.75rem"
-                            component={FilledInput}
-                            autoComplete="off"
-                            type="text"
-                            defaultValue="United States"
+                            value={info.groupName}
+                            onChange={e => onChange('groupName', e.target.value)}
                           />
                         </FormControl>
                       </FormGroup>
                     </Grid>
                   </Grid>
                 </div>
+                <div style={{textAlign:'right'}}>
+                <Tooltip title="탈퇴한 계정은 복구되지 않습니다." classes={{ tooltip : classes.tooltip}}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  onClick={() => alert({
+                    message : '탈퇴하시겠습니까?',
+                    onSubmit : () => {}
+                  })}
+                >회원탈퇴</Button>
+              </Tooltip>
+              </div>            
               </CardContent>
             </Card>
           </Grid>
@@ -289,20 +290,7 @@ function Profile() {
                       width="1.25rem!important"
                       height="1.25rem!important"
                     ></Box>
-                    Bucharest, Romania
-                  </Box>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    fontSize="1rem"
-                  >
-                    <Box
-                      component={School}
-                      width="1.25rem!important"
-                      height="1.25rem!important"
-                      marginRight=".5rem"
-                    ></Box>
+                    {address}
                   </Box>
                 </Box>
               </Box>

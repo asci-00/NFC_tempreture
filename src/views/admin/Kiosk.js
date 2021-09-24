@@ -4,16 +4,11 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import MaterialTable, { MTableToolbar } from 'material-table';
-//icons
-import PermIdentityIcon from '@material-ui/icons/PermIdentity'
-import PanToolIcon from '@material-ui/icons/PanTool';
 //styles
 import { makeStyles } from "@material-ui/core/styles";
 import commonStyles from "assets/theme/views/admin/common.js";
 //layout
 import Header from "components/Headers/Header.js";
-//user component
-import alert from 'func/common'
 //api request
 import { getRequest, deleteRequest, setRequest } from 'apis/kiosk'
 //static configuration data
@@ -24,7 +19,7 @@ import DataController from 'components/DataController'
 
 const useStyles = makeStyles(commonStyles)
 
-const AccountPage = (props) => {
+const KioskPage = (props) => {
     const { data, requestAPI } = props
     const commonC = useStyles()
     /*data change*/
@@ -42,8 +37,16 @@ const AccountPage = (props) => {
                     title="KIOSK 목록"
                     actions={[
                         {
+                            icon: 'create',
+                            tooltip: '단말기 제거',
+                            onClick: (event, rowData) => requestAPI(setRequest, { data: { ...rowData } })
+                        }, {
+                            icon: 'update',
+                            tooltip: '단말기 제거',
+                            onClick: (event, rowData) => requestAPI(deleteRequest, { data: { ...rowData } })
+                        }, {
                             icon: 'delete',
-                            tooltip: '사용자 제거',
+                            tooltip: '단말기 제거',
                             onClick: (event, rowData) => requestAPI(deleteRequest, { data: { ...rowData } })
                         }
                     ]}
@@ -66,7 +69,7 @@ const AccountPage = (props) => {
 
 }
 
-export default DataController(AccountPage, {
+export default DataController(KioskPage, {
     dataRequest: getRequest,
     dataTransform : (res) => res.data.data
 })

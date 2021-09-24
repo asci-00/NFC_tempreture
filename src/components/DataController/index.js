@@ -32,13 +32,6 @@ const DataController = (Component, config) => {
     const [data, setData] = useState(null)
     const classes = useStyles()
 
-    useEffect(() => {
-      dataRequest().then(res => {
-        setData(dataTransform(res))
-        setLoading(false)
-      }).catch(err => { errorHandling(err, classes) })
-    }, [])
-
     const {
       dataRequest = () => null,
       dataTransform = (data) => data,
@@ -46,15 +39,32 @@ const DataController = (Component, config) => {
       Skeleton = SkeletonComponent, //display component during pre process
     } = config
 
+    const getRequest = async () => {
+      try {
+        let resData = null
+        if(dataRequest.length) {
+          for(let idx = 0; idx < dataRequest.length; idx++) {
+            resData[dataRequest[idx].field] = await dataRequest[idx].func()
+            const dataTransformFunc = dataTransform.length ? dataTransform[idx] : dataTransform
+            resData[dataRequest[idx].field] = dataTransformFunc(resData[dataRequest[idx].field])
+          }
+          setData(resData)
+        } else {
+          resData = await dataRequest()
+          setData(dataTransform(resData))
+        }  
+      } catch(err) { errorHandling(err, classes) }
+      setLoading(false)
+    }
+
+    useEffect(() => getRequest(), [])
+
     const requestAPI = async (api, parms, reload = false, reloadData = null) => {
       setLoading(true)
       let res = null
       try {
-        res = await api({ ...parms })
-        if (reload) {
-          const req_data = await dataRequest()
-          setData(dataTransform(req_data))
-        }
+        res = await api( ...parms )
+        if (reload) getRequest()
       } catch (err) { errorHandling(err, classes) }
       setLoading(false)
       return res
