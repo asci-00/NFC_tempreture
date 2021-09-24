@@ -72,7 +72,7 @@ const Admin = (props) => {
           routes={routes.filter(route => route.layout === getUserPath(level))}
           logo={{
             innerLink: `${getUserPath(level)}/index`,
-            imgSrc: require("../assets/img/brand/argon-react.png").default,
+            imgSrc: require("../assets/img/brand/onki_logo.png").default,
             imgAlt: "...",
           }}
           dropdown={<NavbarDropdown />}
