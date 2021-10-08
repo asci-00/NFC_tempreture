@@ -69,7 +69,7 @@ const componentStyles = (theme) => ({
     verticalAlign: "middle",
     borderStyle: "none",
     [theme.breakpoints.up("md")]: {
-      maxHeight: "3rem",
+      maxHeight: "4.2rem",
     },
   },
   logoLinkClasses: {

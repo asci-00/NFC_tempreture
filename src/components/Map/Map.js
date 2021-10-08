@@ -21,15 +21,15 @@ export default function MapWrapper ({data}) {
       };
   
       map = new google.maps.Map(map, mapOptions);
-      const flightPath = new google.maps.Polyline({
-        path: data,
-        geodesic: true,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-      }).setMap(map)
+      // const flightPath = new google.maps.Polyline({
+      //   path: data,
+      //   geodesic: true,
+      //   strokeColor: "#FF0000",
+      //   strokeOpacity: 1.0,
+      //   strokeWeight: 2,
+      // }).setMap(map)
       
-      data.forEach((log, idx) => {
+      if(data) data.forEach((log, idx) => {
         const {latitude : lat, longitude : lng, building_name, dateTime} = log
         const marker = new google.maps.Marker({
             position: {lat, lng},

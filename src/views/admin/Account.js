@@ -6,7 +6,8 @@ import Container from "@material-ui/core/Container";
 import MaterialTable, { MTableToolbar } from 'material-table';
 //icons
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
-import PanToolIcon from '@material-ui/icons/PanTool';
+import PanToolIcon from '@material-ui/icons/PanTool'
+import DeleteIcon from '@material-ui/icons/Delete'
 //styles
 import { makeStyles } from "@material-ui/core/styles";
 import commonStyles from "assets/theme/views/admin/common.js";
@@ -43,16 +44,16 @@ const AccountPage = (props) => {
                             icon: PermIdentityIcon,
                             tooltip: '권한 허용',
                             onClick: (event, rowData) => requestAPI(approveRequest, [rowData['UUID'], rowData['groupCode']]),
-                            disabled: (rowData['groupRequest'] !== 'wait')
+                            //disabled: (rowData['groupRequest'] !== 'wait')
                         }),
                         rowData => ({
                             icon: PanToolIcon,
                             tooltip: '권한 회수',
                             onClick: (event, rowData) => requestAPI(revokeRequest, [rowData['UUID']]),
-                            disabled: (rowData['groupRequest'] !== 'done')
+                            //disabled: (rowData['groupRequest'] !== 'done')
                         }),
                         {
-                            icon: 'delete',
+                            icon: DeleteIcon,
                             tooltip: '사용자 제거',
                             onClick: (event, rowData) => requestAPI(deleteRequest, [rowData['UUID']])
                         }
@@ -61,7 +62,7 @@ const AccountPage = (props) => {
                         actionsColumnIndex: -1,
                         headerStyle: {
                             backgroundColor: '#eee',
-                        },
+                        }
                     }}
                     localization={{ header: { actions: "" } }}
                     components={{
