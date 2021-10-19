@@ -5,26 +5,37 @@ import {
   SET_AUTH,
   INIT_AUTH,
   CLEAR_ERROR,
-  requestAuthFail, setAuth, initAuth 
+  ERROR,
+  requestAuthFail, setAuth, initAuth, error
 } from 'actions/auth'
 //apis
 import * as Api from 'apis/auth'
 
+const successInfo = {
+  isLogin : true,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
+  uuid : 'uuid_test', level : 0,
+  name : '관리자',groupCode : '001',
+  groupName : '관리자',email : 'admin@admin.com',
+  address: '경기도', approve : true,
+  error: undefined
+}
+
+
 function* requestAuthSaga(action) {     //API 호출
-  try {
-    const { data } = yield call(Api.getAuthInfo, action.payload)
-    yield put(setAuth({...data.data}))
-    sessionStorage.setItem('token', data.token)
-  } catch(err) { yield put(requestAuthFail()) }
+  yield put(setAuth(successInfo))
+  sessionStorage.setItem('token', successInfo.uuid)
+  // try {
+  //   const { data } = yield call(Api.getAuthInfo, action.payload)
+  //   yield put(setAuth({...data.data}))
+  //   sessionStorage.setItem('token', data.token)
+  // } catch(err) { yield put(requestAuthFail(err)) }
   //if api call fail
 }
 
 function* requestAuthFailSaga(action) { //API 호출
   const err = action.payload
-  console.log(err)
   sessionStorage.removeItem('token')
-  //alert('')
-  yield put(initAuth())
+  yield put(error(err))
 }
 
 export function* authSaga() {
@@ -53,6 +64,8 @@ export default function auth(state = initialState, action) {
       }
     case INIT_AUTH:
       return { ...initialState }
+    case ERROR:
+      return { ...state, error: action.payload }
     case CLEAR_ERROR:
       return { ...state, error: undefined}
     default:
