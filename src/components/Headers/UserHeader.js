@@ -58,8 +58,8 @@ const UserHeader = ({name, onClick}) => {
                 lineHeight="1.7"
                 fontSize="1rem"
               >
-                This is your profile page. You can see the progress you've made
-                with your work and manage your projects or assigned tasks
+                프로필 페이지입니다. 이 페이지에서 개인 정보를 변경할 수 있으며, 승인이 필요한 정보의 경우,
+                변경에 시간이 걸릴 수 있습니다.
               </Box>
               <Button
                 variant="contained"

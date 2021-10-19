@@ -1,6 +1,9 @@
 import Api from './Api'
 
 export const getRequest = () => Api.get('/v1/useradmin/account')
+export const getGroupList = () => Api.get('/v1/useradmin/subgroup/group/all')
+
+
 export const approveRequest = (uuid, groupCode) => Api.post('/v1/useradmin/subgroup/authadd', { targetUUID : uuid, targetGroupCode : groupCode })
 export const revokeRequest = (uuid) => Api.post('/v1/useradmin/subgroup/authremove', { targetUUID : uuid })
 export const requestNewAccountGroup = (displayname, Group_name, address) => Api.post('/v1/useradmin/subgroup/group', { displayname, Group_name, address })

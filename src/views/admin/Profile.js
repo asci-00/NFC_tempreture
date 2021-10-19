@@ -12,6 +12,7 @@ import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import FilledInput from "@material-ui/core/FilledInput";
 import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import Grid from "@material-ui/core/Grid";
@@ -26,25 +27,50 @@ import UserHeader from "components/Headers/UserHeader.js";
 import componentStyles from "assets/theme/views/admin/profile.js";
 import alert from 'func/common.js'
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
+import { getGroupList } from 'apis/account'
+import DataController from 'components/DataController'
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
 const useStyles = makeStyles(componentStyles);
 
-function Profile() {
+function Profile(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [editable, setEditable] = useState(false)
   const [info, setInfo] = useState(useSelector(state => state.auth))
+  const [type, setType] = useState("exist")
   const { name, address } = useMemo(() => info, [])
+  const { data: groupList } = props
 
-  const onChange = (key, value) => setInfo({...info, [key] : value})
+  const onChange = (key, value) => setInfo({ ...info, [key]: value })
   const onSubmit = () => {
     console.log(info)
     setTimeout(() => alert({
-      message : '변경요청이 완료되었습니다.',
-      cancel : false,
-      onSubmit : () => {}
+      message: '변경요청이 완료되었습니다.',
+      cancel: false,
+      onSubmit: () => { }
     }), 0)
   }
 
+  const groupForm = () => (
+    <FormControl component="fieldset">
+      <RadioGroup
+        row aria-label="gender"
+        name="row-radio-buttons-group"
+        value={type}
+        onChange={ev => setType(ev.target.value)}>
+        <FormControlLabel value="new" control={<Radio color="primary" />} label="새 그룹" />
+        <FormControlLabel value="exist" control={<Radio color="primary" />} label="기존 그룹" />
+      </RadioGroup>
+    </FormControl>
+  )
+  console.log(info, groupList)
   return (
     <>
       <UserHeader name={name} onClick={() => setEditable(true)} />
@@ -93,13 +119,13 @@ function Profile() {
                         display="flex"
                         flexWrap="wrap"
                       >
-                        <Tooltip title="승인이 필요한 변경사항은 적용에 시간이 걸릴 수 있습니다." classes={{ tooltip : classes.tooltip}}>
+                        <Tooltip title="승인이 필요한 변경사항은 적용에 시간이 걸릴 수 있습니다." classes={{ tooltip: classes.tooltip }}>
                           <Button
                             variant="contained"
                             color="primary"
                             size="small"
                             onClick={() => alert({
-                              message : '변경사항을 적용하겠습니까?',
+                              message: '변경사항을 적용하겠습니까?',
                               onSubmit
                             })}
                           >변경요청</Button>
@@ -196,6 +222,9 @@ function Profile() {
                 </Box>
                 <div className={classes.plLg4}>
                   <Grid container>
+                    <Grid item xs={12}>
+                      {groupForm()}
+                    </Grid>
                     <Grid item xs={12} lg={6}>
                       <FormGroup>
                         <FormLabel>Address</FormLabel>
@@ -209,7 +238,7 @@ function Profile() {
                             paddingLeft="0.75rem"
                             paddingRight="0.75rem"
                             component={FilledInput}
-                            disabled={!editable}
+                            disabled={!editable || type !== 'new'}
                             autoComplete="off"
                             type="text"
                             value={info.address}
@@ -220,41 +249,63 @@ function Profile() {
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <FormGroup>
-                        <FormLabel>Group name</FormLabel>
-                        <FormControl
-                          variant="filled"
-                          component={Box}
-                          width="100%"
-                          marginBottom="1rem!important"
-                        >
-                          <Box
-                            paddingLeft="0.75rem"
-                            paddingRight="0.75rem"
-                            component={FilledInput}
-                            disabled={!editable}
-                            autoComplete="off"
-                            type="text"
-                            value={info.groupName}
-                            onChange={e => onChange('groupName', e.target.value)}
-                          />
-                        </FormControl>
+                        {
+                          type === 'new' ?
+                            <>
+                              <FormLabel>Group name</FormLabel>
+                              <FormControl
+                                variant="filled"
+                                component={Box}
+                                width="100%"
+                                marginBottom="1rem!important"
+                              >
+                                <Box
+                                  paddingLeft="0.75rem"
+                                  paddingRight="0.75rem"
+                                  component={FilledInput}
+                                  disabled={!editable}
+                                  autoComplete="off"
+                                  type="text"
+                                  value={info.groupName}
+                                  onChange={e => onChange('groupName', e.target.value)}
+                                />
+                              </FormControl>
+                            </>
+                            :
+                            <FormControl fullWidth>
+                              <FormLabel>Group name</FormLabel>
+                              <Select
+                                onChange={(ev, detail) => {
+                                  setInfo({...info, groupCode:ev.target.value, groupName:detail.props.children})
+                                }}
+                                input={<FilledInput disabled={!editable}/>}
+                                value={info.groupCode}
+                              > <MenuItem value=""><em>None</em></MenuItem>
+                                {
+                                  groupList && groupList.map((item, idx) => (
+                                    <MenuItem value={item.Group_code} key={idx}>{item.Group_name}</MenuItem>
+                                  ))
+                                }
+                              </Select>
+                            </FormControl>
+                        }
                       </FormGroup>
                     </Grid>
                   </Grid>
                 </div>
-                <div style={{textAlign:'right'}}>
-                <Tooltip title="탈퇴한 계정은 복구되지 않습니다." classes={{ tooltip : classes.tooltip}}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  onClick={() => alert({
-                    message : '탈퇴하시겠습니까?',
-                    onSubmit : () => {}
-                  })}
-                >회원탈퇴</Button>
-              </Tooltip>
-              </div>            
+                <div style={{ textAlign: 'right' }}>
+                  <Tooltip title="탈퇴한 계정은 복구되지 않습니다." classes={{ tooltip: classes.tooltip }}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="small"
+                      onClick={() => alert({
+                        message: '탈퇴하시겠습니까?',
+                        onSubmit: () => { }
+                      })}
+                    >회원탈퇴</Button>
+                  </Tooltip>
+                </div>
               </CardContent>
             </Card>
           </Grid>
@@ -302,4 +353,7 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default DataController(Profile, {
+  dataRequest: getGroupList,
+  dataTransform: (res) => res.data.data
+});
