@@ -14,7 +14,7 @@ import * as Api from 'apis/auth'
 const successInfo = {
   isLogin : true,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
   uuid : 'uuid_test', level : 0,
-  name : '관리자',groupCode : '001',
+  name : '관리자',groupCode : "041-31499-g1",
   groupName : '관리자',email : 'admin@admin.com',
   address: '경기도', approve : true,
   error: undefined
