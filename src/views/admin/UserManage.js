@@ -20,6 +20,7 @@ import { columns, sample_data } from 'modules/static/terminal.js'
 //import * as kiosk from 'apis/kiosk'
 //hoc component
 import DataController from 'components/DataController'
+import Filtering from 'views/admin/popup/Filtering'
 
 const useStyles = makeStyles(componentStyles),
       useStyles2 = makeStyles(commonStyles)
@@ -28,13 +29,15 @@ const UserManage = (props) => {
   const layoutC = useStyles()
   const commonC = useStyles2()
   const [selected, setSelected] = useState(null)
-
+  const [mapData, setMapData] = useState([])
+  const [open, setOpen] = useState(false)
   const { data, requestAPI } = props
 
   return (
     <>
       <Header />
       {/* Page content */}
+      <Filtering open={open} onClose={()=>setOpen(false)}/>
       <Container
         maxWidth={false}
         component={Box}
@@ -47,11 +50,13 @@ const UserManage = (props) => {
                 variant="contained"
                 color="primary"
                 size="medium"
+                onClick={()=>setOpen(true)}
               >필터검색</Button>
               <Button
                 variant="contained"
                 color="default"
                 size="medium"
+                onClick = {() => setMapData([])}
               >필터취소</Button>
           </div>
           <div className={layoutC.rightButtonGroup}>
@@ -88,7 +93,7 @@ const UserManage = (props) => {
           </Grid>
           <Grid item xs={12} xl={7}>
             <Card classes={{ root: layoutC.cardRoot }} style={{height:'564px', border:'1px solid grey'}}>
-              <Map data={data}/>
+              <Map data={mapData}/>
             </Card>
           </Grid>
         </Grid>

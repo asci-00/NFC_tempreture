@@ -15,7 +15,7 @@ import { requestAuth, clearError } from 'actions/auth'
 // User functionable file
 import { signInWithGoogle, signInWithApple, getIDToken } from 'firebase.config'
 import alert from 'func/common.js'
-import Filtering from 'views/admin/popup/Filtering'
+
 const useStyles = makeStyles(componentStyles)
 
 function Login(props) {
@@ -42,7 +42,6 @@ function Login(props) {
   return (
     <>
       <Grid item xs={12} lg={5} md={7}>
-        {/* <Filtering></Filtering> */}
         <Card classes={{ root: classes.cardRoot }}>
           <CardHeader
             className={classes.cardHeader}
