@@ -9,4 +9,4 @@ export const revokeRequest = (uuid) => Api.post('/v1/useradmin/subgroup/authremo
 export const requestNewAccountGroup = (displayname, Group_name, address) => Api.post('/v1/useradmin/subgroup/group', { displayname, Group_name, address })
 export const requestNewAccount = (displayname, Group_name) => Api.post('/v1/useradmin/subgroup/user', { displayname, Group_name })
 export const updateRequest = (uuid) => Api.put('/v1/useradmin/accountMGMT', {targetUUID : uuid})
-export const deleteRequest = (uuid) => Api.delete('/v1/useradmin/accountMGMT', {targetUUID : uuid})
+export const deleteRequest = (uuid) => Api.delete('/v1/useradmin/account', {targetUUID : uuid})
