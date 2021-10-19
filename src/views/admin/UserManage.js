@@ -30,7 +30,7 @@ const UserManage = (props) => {
   const [selected, setSelected] = useState(null)
 
   const { data, requestAPI } = props
-  
+
   return (
     <>
       <Header />
@@ -50,14 +50,14 @@ const UserManage = (props) => {
               >필터검색</Button>
               <Button
                 variant="contained"
-                color="error"
+                color="default"
                 size="medium"
               >필터취소</Button>
           </div>
           <div className={layoutC.rightButtonGroup}>
             <Button
               variant="contained"
-              color="error"
+              color="default"
               size="medium"
             >모바일푸시</Button>
           </div>

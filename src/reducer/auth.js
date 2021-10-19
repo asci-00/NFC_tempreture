@@ -1,6 +1,6 @@
 import { put, takeEvery, takeLatest, call, all } from 'redux-saga/effects';
 //actions
-import { 
+import {
   REQUEST_AUTH, REQUEST_FAIL,
   SET_AUTH,
   INIT_AUTH,
@@ -19,7 +19,6 @@ const successInfo = {
   address: '경기도', approve : true,
   error: undefined
 }
-
 
 function* requestAuthSaga(action) {     //API 호출
   yield put(setAuth(successInfo))
@@ -44,10 +43,10 @@ export function* authSaga() {
     takeLatest(REQUEST_FAIL, requestAuthFailSaga),
   ])
 }
-
+sessionStorage.setItem('token', 'test')
 const initialState = {
-  isLogin : false,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
-  uuid : '', level : -1,
+  isLogin : true,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
+  uuid : '', level : 0,
   name : '',groupCode : '',
   groupName : '',email : '',
   address: '', approve : false,
@@ -57,8 +56,8 @@ const initialState = {
 export default function auth(state = initialState, action) {
   switch (action.type) {
     case SET_AUTH:
-      return { 
-        ...state, 
+      return {
+        ...state,
         ...action.payload,
         isLogin:true
       }
