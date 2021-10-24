@@ -10,7 +10,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import Grid from "@material-ui/core/Grid"
-import FilledInput from "@material-ui/core/FilledInput"
+import OutlinedInput from "@material-ui/core/OutlinedInput"
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -19,6 +19,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import popupStyles from "assets/theme/popup/filtering.js";
+
+import { makeStyles } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 
 const filterItem = [
     {
@@ -41,11 +46,12 @@ const filterItem = [
         field : 'building',
         type : 'select',
         default : '',
-    }, 
+    },
 ]
 
 const filterItemObject = {}
 
+const useStyles = makeStyles(popupStyles);
 
 const FilterComponent = (props) => {
     /*dialog component*/
@@ -54,9 +60,10 @@ const FilterComponent = (props) => {
      * [체크박스]동선 겹침 사용자[셀렉트박스]
      * [체크박스]날짜[기본값:일주일 전 - 현재]
      * [체크박스]건물[셀렉트박스]
-     * 
+     *
      */
 
+    const classes = useStyles();
     const [filterValues, setfilterValues] = useState(null)
     const {open, onClose, onSubmit} = props
     useEffect(() => {
@@ -69,7 +76,7 @@ const FilterComponent = (props) => {
         })
         setfilterValues(filterItemObject)
     }, [])
-    
+
     const handlingCheck = (key, checked) => {
         setfilterValues({...filterValues, [key] : {
             value : '',
@@ -84,7 +91,7 @@ const FilterComponent = (props) => {
     }
 
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={onClose} className={classes.paper}>
             <DialogTitle>필터 설정</DialogTitle>
             <DialogContent>
             <Grid container spacing={3}>
@@ -93,7 +100,7 @@ const FilterComponent = (props) => {
                         <FormControl>
                             <FormControlLabel
                                 control={ <Checkbox checked={filterValues[filter].checked} onChange={(ev)=>handlingCheck(filter, ev.target.checked)} color="primary" /> }
-                                label={<FilledInput
+                                label={<OutlinedInput
                                     autoComplete="off"
                                     type="text"
                                     placeholder={filterItemObject[filter]['name']}
@@ -109,10 +116,10 @@ const FilterComponent = (props) => {
             </Grid>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={() => { onSubmit(filterValues); onClose() }}>
+                <Button autoFocus onClick={() => { onSubmit(filterValues); onClose() }} color="primary" variant="contained">
                     지도적용
                 </Button>
-                <Button onClick={onClose} autoFocus>
+                <Button onClick={onClose} autoFocus color="default" variant="contained">
                     취소
                 </Button>
             </DialogActions>

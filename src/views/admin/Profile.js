@@ -1,8 +1,3 @@
-import React, { useState, useMemo } from "react";
-import { useSelector } from 'react-redux'
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -16,26 +11,29 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from '@material-ui/core/Tooltip';
-// @material-ui/icons components
-import LocationOn from "@material-ui/icons/LocationOn";
-
-// core components
-import UserHeader from "components/Headers/UserHeader.js";
-
-import componentStyles from "assets/theme/views/admin/profile.js";
-import alert from 'func/common.js'
-
+import MenuItem from '@material-ui/core/MenuItem';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-
-import { getGroupList } from 'apis/account'
-import DataController from 'components/DataController'
-
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+// @material-ui/core components
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from "@material-ui/core/Typography";
+// @material-ui/icons components
+import LocationOn from "@material-ui/icons/LocationOn";
+import { getGroupList } from 'apis/account';
+import componentStyles from "assets/theme/views/admin/profile.js";
+import DataController from 'components/DataController';
+// core components
+import UserHeader from "components/Headers/UserHeader.js";
+import alert from 'func/common.js';
+import React, { useMemo, useState } from "react";
+import { useSelector } from 'react-redux';
+
+
+
+
+
 
 const useStyles = makeStyles(componentStyles);
 
@@ -70,7 +68,7 @@ function Profile(props) {
       </RadioGroup>
     </FormControl>
   )
-  console.log(info, groupList)
+
   return (
     <>
       <UserHeader name={name} onClick={() => setEditable(true)} />
@@ -275,8 +273,16 @@ function Profile(props) {
                             <FormControl fullWidth>
                               <FormLabel>Group name</FormLabel>
                               <Select
-                                onChange={(ev, detail) => {
-                                  setInfo({...info, groupCode:ev.target.value, groupName:detail.props.children})
+                                onChange={(ev) => {
+                                  const groupInfo = groupList.find(item => item.Group_code === ev.target.value)
+                                  const { name : groupName = '', address = '' } = groupInfo || {}
+
+                                  setInfo({
+                                    ...info,
+                                    groupCode: ev.target.value,
+                                    groupName,
+                                    address
+                                  })
                                 }}
                                 input={<FilledInput disabled={!editable}/>}
                                 value={info.groupCode}

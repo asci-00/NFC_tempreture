@@ -1,12 +1,12 @@
 // react library
-import React, { useEffect, useState } from "react"
 // material-ui
 import { makeStyles } from "@material-ui/core/styles"
+import style from 'assets/theme/views/popup'
 // user component
 import SkeletonComponent from 'components/Skeleton'
 // func and styles
 import alert from 'func/common'
-import style from 'assets/theme/views/popup'
+import React, { useEffect, useState } from "react"
 
 const useStyles = makeStyles(style)
 const _errorHandling = (error, classes) => {
@@ -27,7 +27,7 @@ const _errorHandling = (error, classes) => {
 }
 
 const DataController = (Component, config) => {
-  const HOCComponent = () => {
+  const HOCComponent = (props) => {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(null)
     const classes = useStyles()
@@ -52,7 +52,7 @@ const DataController = (Component, config) => {
         } else {
           resData = await dataRequest()
           setData(dataTransform(resData))
-        }  
+        }
       } catch(err) { errorHandling(err, classes) }
       setLoading(false)
     }
@@ -69,7 +69,7 @@ const DataController = (Component, config) => {
       setLoading(false)
       return res
     }
-    
+
     return loading ? <Skeleton /> : <Component data={data} requestAPI={requestAPI} />
   }
 

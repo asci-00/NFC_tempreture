@@ -1,15 +1,9 @@
-import { put, takeEvery, takeLatest, call, all } from 'redux-saga/effects';
 //actions
 import {
-  REQUEST_AUTH, REQUEST_FAIL,
-  SET_AUTH,
-  INIT_AUTH,
   CLEAR_ERROR,
-  ERROR,
-  requestAuthFail, setAuth, initAuth, error
-} from 'actions/auth'
-//apis
-import * as Api from 'apis/auth'
+  ERROR, error, INIT_AUTH, REQUEST_AUTH, REQUEST_FAIL, setAuth, SET_AUTH
+} from 'actions/auth';
+import { all, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 const successInfo = {
   isLogin : true,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
@@ -43,10 +37,10 @@ export function* authSaga() {
     takeLatest(REQUEST_FAIL, requestAuthFailSaga),
   ])
 }
-sessionStorage.setItem('token', 'test')
+
 const initialState = {
-  isLogin : true,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
-  uuid : '', level : 0,
+  isLogin : false,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
+  uuid : '', level : -1,
   name : '',groupCode : '',
   groupName : '',email : '',
   address: '', approve : false,

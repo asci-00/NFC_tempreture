@@ -44,25 +44,25 @@ export const styles = [
     },
 ]
 
-export const sample_data = [
-    { 
-        lat: 36.73868615605972, 
-        lng: 127.0725304087475,
+export const map_sample_data = [
+    {
+        latitude: 36.73868615605972,
+        longitude: 127.0725304087475,
         dateTime : '2020-01-02 01:11',
-        building_name : '강석규1호관' 
-    }, { 
-        lat: 36.741507970805394, 
-        lng: 127.07726987076714,
+        building_name : '강석규1호관'
+    }, {
+        latitude: 36.741507970805394,
+        longitude: 127.07726987076714,
         dateTime : '2020-01-02 01:21',
         building_name : '강석규2호관'
-    }, { 
-        lat: 36.74264462072542, 
-        lng: 127.08548547567008,
+    }, {
+        latitude: 36.74264462072542,
+        longitude: 127.08548547567008,
         dateTime : '2020-01-02 01:31',
         building_name : '강석규3호관'
-    }, { 
-        lat: 36.737797357181144, 
-        lng: 127.08730669428152,
+    }, {
+        latitude: 36.737797357181144,
+        longitude: 127.08730669428152,
         dateTime : '2020-01-02 01:41',
         building_name : '강석규4호관'
     }

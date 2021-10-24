@@ -1,5 +1,5 @@
 //react library
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 //@material-ui components
 import Card from "@material-ui/core/Card";
 import Container from "@material-ui/core/Container";
@@ -16,10 +16,11 @@ import componentStyles from "assets/theme/views/admin/maps.js";
 import commonStyles from "assets/theme/views/admin/common.js";
 //static configuration data
 import { columns, sample_data } from 'modules/static/terminal.js'
+import { map_sample_data } from 'modules/static/map.js'
 //api request
 //import * as kiosk from 'apis/kiosk'
 //hoc component
-import DataController from 'components/DataController'
+//import DataController from 'components/DataController'
 import Filtering from 'views/admin/popup/Filtering'
 
 const useStyles = makeStyles(componentStyles),
@@ -29,9 +30,11 @@ const UserManage = (props) => {
   const layoutC = useStyles()
   const commonC = useStyles2()
   const [selected, setSelected] = useState(null)
-  const [mapData, setMapData] = useState([])
+  const [mapData, setMapData] = useState([...map_sample_data])
   const [open, setOpen] = useState(false)
   const { data, requestAPI } = props
+
+  const MapComponent = useMemo(() => <Map data={mapData}/>, [mapData])
 
   return (
     <>
@@ -47,17 +50,15 @@ const UserManage = (props) => {
         <div className={layoutC.buttonGroup}>
           <div className={layoutC.leftButtonGroup}>
             <Button
-                variant="contained"
-                color="primary"
-                size="medium"
-                onClick={()=>setOpen(true)}
-              >필터검색</Button>
-              <Button
-                variant="contained"
-                color="default"
-                size="medium"
-                onClick = {() => setMapData([])}
-              >필터취소</Button>
+              variant="contained"
+              color="primary" size="medium"
+              onClick={()=>setOpen(true)}
+            >필터검색</Button>
+            <Button
+              variant="contained"
+              color="default" size="medium"
+              onClick = {() => setMapData([])}
+            >필터취소</Button>
           </div>
           <div className={layoutC.rightButtonGroup}>
             <Button
@@ -93,7 +94,7 @@ const UserManage = (props) => {
           </Grid>
           <Grid item xs={12} xl={7}>
             <Card classes={{ root: layoutC.cardRoot }} style={{height:'564px', border:'1px solid grey'}}>
-              <Map data={mapData}/>
+              {MapComponent}
             </Card>
           </Grid>
         </Grid>

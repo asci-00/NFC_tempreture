@@ -6,12 +6,14 @@ import { styles } from "modules/static/map";
 export default function MapWrapper({ data }) {
   const mapRef = React.useRef(null);
 
+  console.log(data)
+
   React.useEffect(() => {
     let google = window.google;
     let map = mapRef.current;
 
     const myLatlng = new google.maps.LatLng(36.736134, 127.077176);
-    console.log(myLatlng);
+
     const mapOptions = {
       zoom: 15,
       center: myLatlng,
@@ -21,15 +23,9 @@ export default function MapWrapper({ data }) {
     };
 
     map = new google.maps.Map(map, mapOptions);
-    // const flightPath = new google.maps.Polyline({
-    //   path: data,
-    //   geodesic: true,
-    //   strokeColor: "#FF0000",
-    //   strokeOpacity: 1.0,
-    //   strokeWeight: 2,
-    // }).setMap(map)
 
-    if (data)
+
+    if(data && data.length) {
       data.forEach((log, idx) => {
         const { latitude: lat, longitude: lng, building_name, dateTime } = log;
         const marker = new google.maps.Marker({
@@ -38,8 +34,11 @@ export default function MapWrapper({ data }) {
           animation: google.maps.Animation.DROP,
           title: building_name,
         });
-        const contentString = `<div class="info-window-content"><h2>${building_name}</h2>
-        <p>${dateTime}</p></div>`;
+        const contentString = `
+          <div class="info-window-content">
+            <h2>${building_name}</h2>
+            <p>${dateTime}</p>
+          </div>`;
         const infowindow = new google.maps.InfoWindow({
           content: contentString,
         });
@@ -47,16 +46,17 @@ export default function MapWrapper({ data }) {
           infowindow.open(map, marker);
         });
       });
-    //preview code
-    const marker = new google.maps.Marker({
-      position: { lat : 36.736134, lng : 127.077176 },
-      map: map,
-      animation: google.maps.Animation.DROP,
-      title: '호서대학교',
-    });
-    const contentString = `<div class="info-window-content"><h2>${'호서대학교'}</h2></div>`;
-    const infowindow = new google.maps.InfoWindow({ content: contentString });
-    infowindow.open(map, marker);
+      const flightPath = new google.maps.Polyline({
+        path: data.map(item => ({
+          lat : item.latitude,
+          lng : item.longitude
+        })),
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+      }).setMap(map);
+    }
   });
   return (
     <>
