@@ -1,30 +1,33 @@
 //react library
-import React from "react";
 //@material-ui components
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import MaterialTable, { MTableToolbar } from 'material-table';
 //styles
 import { makeStyles } from "@material-ui/core/styles";
+//api request
+import { deleteRequest, getRequest, setRequest } from 'apis/kiosk';
 import commonStyles from "assets/theme/views/admin/common.js";
+//hoc component
+import DataController from 'components/DataController';
 //layout
 import Header from "components/Headers/Header.js";
-//api request
-import { getRequest, deleteRequest, setRequest } from 'apis/kiosk'
+import MaterialTable, { MTableToolbar } from 'material-table';
 //static configuration data
-import { columns } from 'modules/static/kiosk'
-//hoc component
-import DataController from 'components/DataController'
-
+import { columns, sample_data } from 'modules/static/kiosk';
+import React, { useState } from "react";
+import CreateTerminal from 'views/admin/popup/CreateTerminal';
 
 const useStyles = makeStyles(commonStyles)
 
 const KioskPage = (props) => {
     const { data, requestAPI } = props
     const commonC = useStyles()
+    const [open, setOpen] = useState(false)
+
     /*data change*/
     return (
         <>
+            <CreateTerminal open={open} onClose={()=>setOpen(false)} onSubmit={info=> requestAPI(setRequest, info, true)}/>
             <Header />
             {/* Page content */}
             <Container
@@ -33,21 +36,18 @@ const KioskPage = (props) => {
                 marginTop="-6rem">
                 <MaterialTable
                     columns={columns}
-                    data={data}
+                    data={sample_data}
                     title="KIOSK 목록"
                     actions={[
                         {
-                            icon: 'create',
-                            tooltip: '단말기 제거',
-                            onClick: (event, rowData) => requestAPI(setRequest, { data: { ...rowData } })
-                        }, {
-                            icon: 'update',
-                            tooltip: '단말기 제거',
-                            onClick: (event, rowData) => requestAPI(deleteRequest, { data: { ...rowData } })
-                        }, {
                             icon: 'delete',
                             tooltip: '단말기 제거',
-                            onClick: (event, rowData) => requestAPI(deleteRequest, { data: { ...rowData } })
+                            onClick: (event, rowData) => requestAPI(deleteRequest, [rowData['kiosk_SN']])
+                        }, {
+                            icon: 'add',
+                            tooltip: '단말기 생성',
+                            isFreeAction:true,
+                            onClick: (event, rowData) => setOpen(true)
                         }
                     ]}
                     options={{

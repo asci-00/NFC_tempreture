@@ -40,7 +40,7 @@ export function* authSaga() {
 
 const initialState = {
   isLogin : false,  //로그인 유무 / 로그인 될 시, login 페이지에서 감지 후 sessionStoreage에 저장
-  uuid : '', level : -1,
+  uuid : '', level : 0,
   name : '',groupCode : '',
   groupName : '',email : '',
   address: '', approve : false,

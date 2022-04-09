@@ -1,27 +1,27 @@
 //react library
-import React, { useState, useMemo } from "react";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 //@material-ui components
 import Card from "@material-ui/core/Card";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import MaterialTable, { MTableToolbar } from 'material-table';
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-//user components
-import Header from "components/Headers/Header.js";
-import Map from 'components/Map/Map'
 //styles
 import { makeStyles } from "@material-ui/core/styles";
-import componentStyles from "assets/theme/views/admin/maps.js";
 import commonStyles from "assets/theme/views/admin/common.js";
+import componentStyles from "assets/theme/views/admin/maps.js";
+//user components
+import Header from "components/Headers/Header.js";
+import Map from 'components/Map/Map';
+import MaterialTable, { MTableToolbar } from 'material-table';
+import { map_sample_data } from 'modules/static/map.js';
 //static configuration data
-import { columns, sample_data } from 'modules/static/terminal.js'
-import { map_sample_data } from 'modules/static/map.js'
+import { columns, sample_data } from 'modules/static/terminal.js';
+import React, { useMemo, useState } from "react";
 //api request
 //import * as kiosk from 'apis/kiosk'
 //hoc component
 //import DataController from 'components/DataController'
-import Filtering from 'views/admin/popup/Filtering'
+import Filtering from 'views/admin/popup/Filtering';
 
 const useStyles = makeStyles(componentStyles),
       useStyles2 = makeStyles(commonStyles)
@@ -30,11 +30,11 @@ const UserManage = (props) => {
   const layoutC = useStyles()
   const commonC = useStyles2()
   const [selected, setSelected] = useState(null)
-  const [mapData, setMapData] = useState([...map_sample_data])
+  const [mapData, setMapData] = useState(map_sample_data)
   const [open, setOpen] = useState(false)
   const { data, requestAPI } = props
-
-  const MapComponent = useMemo(() => <Map data={mapData}/>, [mapData])
+  console.log(map_sample_data)
+  const MapComponent = useMemo(() => <Map data={mapData}/>, [mapData]) // <Map data={data.log}/>, [data.log]
 
   return (
     <>
@@ -71,7 +71,7 @@ const UserManage = (props) => {
         <Grid container>
           <Grid item xs={12} xl={5}>
             <MaterialTable
-              columns = {columns} data = {sample_data}
+              columns = {columns} data = {sample_data} //data = {data.userData}
               options={{
                 headerStyle: {
                   backgroundColor: '#ddd',
@@ -104,10 +104,13 @@ const UserManage = (props) => {
 };
 
 // export default DataController(UserManage, {
-//   dataRequest: [{~
+//   dataRequest: [{
 //     func : kisok.getRequest,
-//     key : ''
-//   }, ],
+//     key : 'userData'
+//   }, {
+//     func : kisok.getLogData,
+//     key : 'log'
+//    }],
 //   dataTransform : (res) => res.data.data
 // });
 // export default DataController(UserManage, {

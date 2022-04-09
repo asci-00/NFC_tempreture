@@ -63,7 +63,8 @@ const DataController = (Component, config) => {
       setLoading(true)
       let res = null
       try {
-        res = await api( ...parms )
+        if(parms.length) res = await api( ...parms )
+        else res = await api({...parms})
         if (reload) getRequest()
       } catch (err) { errorHandling(err, classes) }
       setLoading(false)
